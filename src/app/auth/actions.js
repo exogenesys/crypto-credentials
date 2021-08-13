@@ -1,5 +1,3 @@
-import { useDispatch } from "react-redux";
-
 export const authActions = {
     CONNECT_START: "CONNECT_START",
     CONNECT_SUCCESS: "CONNECT_SUCCESS",

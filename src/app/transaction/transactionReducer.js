@@ -1,5 +1,6 @@
 import {transactionActions} from "./actions";
 import {updateObject} from '../util'
+
 const initialState = {
     signer: null,
     transactionInProgress: false,

@@ -1,6 +1,5 @@
-import solanaWeb3 from '@solana/web3.js'
-import {Keypair, Transaction, SystemProgram, TransactionInstruction, PublicKey} from "@solana/web3.js";
-import {TOKEN_PROGRAM_ID, Token} from '@solana/spl-token';
+import {Keypair, PublicKey, Transaction} from '@solana/web3.js'
+import {Token, TOKEN_PROGRAM_ID} from '@solana/spl-token';
 
 import {startTransaction} from "./actions";
 

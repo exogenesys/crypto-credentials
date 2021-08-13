@@ -1,5 +1,6 @@
 import {authActions} from './actions'
 import {updateObject} from '../util'
+
 const initialState = {
     user: null,
     is_connected: false,

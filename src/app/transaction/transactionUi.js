@@ -1,7 +1,7 @@
 import React from "react";
-import {Button, CardHeader, Container, FormControl, Input, InputLabel} from '@material-ui/core'
+import {Button, Container, FormControl, Input, InputLabel} from '@material-ui/core'
 import {useDispatch} from "react-redux";
-import {setupTransaction, transactionActions} from "./actions";
+import {setupTransaction} from "./actions";
 import {doTransfer} from "./transactionService";
 
 export  const TransactionPage = () => {

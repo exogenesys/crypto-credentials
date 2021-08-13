@@ -1,13 +1,8 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import PropTypes from 'prop-types'
+import React from 'react';
 import {Button} from "@material-ui/core";
-import {useSelector, connect} from "react-redux";
+import {useSelector, useStore} from "react-redux";
 import {startConnection} from "./authService";
-import {useStore} from "react-redux";
-import {clusterApiUrl, Connection, SystemProgram, Transaction} from "@solana/web3.js";
-import Wallet from '@project-serum/sol-wallet-adapter'
 import {TransactionPage} from "../transaction/transactionUi";
-import {useHistory} from "react-router";
 
 
 export default function AuthRedirect () {

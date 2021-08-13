@@ -1,4 +1,4 @@
-import React, {ReactPropTypes} from "react";
+import React from "react";
 import AuthRedirect from "./app/auth/authUi";
 import "./App.css"
 
