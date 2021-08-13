@@ -53,7 +53,7 @@ const TransactionResult = (props) => {
     return (
         <List>
             {Object.entries(transactionInfo).map((infoName, info) =>{
-                return (<ListItem text key={infoName}>
+                return (<ListItem key={infoName}>
                     <Typography>
                         {infoName[0]}: {infoName[1]}
                     </Typography>

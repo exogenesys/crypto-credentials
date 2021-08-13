@@ -2,7 +2,8 @@ import {Keypair, PublicKey, Transaction} from '@solana/web3.js'
 import {Token, TOKEN_PROGRAM_ID} from '@solana/spl-token';
 
 import {addTxInfo, startTransaction} from "./actions";
-
+import {MintLayout} from "@solana/spl-token";
+import * as Layout from '@solana/spl-token'
 const SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID = new PublicKey(
     'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL',
 );
@@ -34,15 +35,16 @@ export const doTransfer = async (dispatch, getState) => {
     let associatedAccountSource = await isAccountFunded(wallet.publicKey)
     let associatedAccountReciever = await isAccountFunded(new PublicKey(targetAddress))
     let transferAmountLamports = xenToLamports(transferAmount)
+    let t = new Token(connection, XEN_TOKEN_MINT_ADDRESS, TOKEN_PROGRAM_ID, feePayer)
 
     console.log(associatedAccountSource.toBase58(), associatedAccountReciever.toBase58())
+    const info = await t.getAccountInfo(associatedAccountSource)
     if (!associatedAccountSource) {
         // sender does not have an associated xen token account so stop transfer
         return
     }
     if (!associatedAccountReciever) {
         // create an associated account for the receiver
-        let t = new Token(connection, XEN_TOKEN_MINT_ADDRESS, TOKEN_PROGRAM_ID, feePayer)
 
         associatedAccountReciever = await t.createAssociatedTokenAccount(targetAddress)
     }

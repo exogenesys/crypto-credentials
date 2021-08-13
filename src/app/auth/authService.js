@@ -10,7 +10,7 @@ export async function startConnection(dispatch, getState) {
     if (window.solana !== void 0)
         wallet = new Wallet(window.solana, network)
     else {
-        wallet = new Wallet(getState.walletProviderUrl, network);
+        wallet = new Wallet(getState().auth.walletProviderUrl, network);
     }
     wallet.on('connect', publicKey => {
         dispatch(connectionSuccess({publicKey: publicKey, wallet: wallet, connection: connection}))
