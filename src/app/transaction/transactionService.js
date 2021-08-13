@@ -34,20 +34,25 @@ export const doTransfer = async (dispatch, getState) => {
     let associatedAccountSource = await isAccountFunded(wallet.publicKey)
     let associatedAccountReciever = await isAccountFunded(new PublicKey(targetAddress))
     let transferAmountLamports = xenToLamports(transferAmount)
+
+    console.log(associatedAccountSource.toBase58(), associatedAccountReciever.toBase58())
+    if (!associatedAccountSource) {
+        // sender does not have an associated xen token account so stop transfer
+        return
+    }
+    if (!associatedAccountReciever) {
+        // create an associated account for the receiver
+        let t = new Token(connection, XEN_TOKEN_MINT_ADDRESS, TOKEN_PROGRAM_ID, feePayer)
+
+        associatedAccountReciever = await t.createAssociatedTokenAccount(targetAddress)
+    }
+    // recipient address already has associated token account so
+    // we can send tokens there
     dispatch(addTxInfo({
         "Receiver's Account": associatedAccountReciever.toBase58(),
         "Sender's Account": associatedAccountSource.toBase58(),
         "Transfer Amount": transferAmount
     }))
-    console.log(associatedAccountSource.toBase58(), associatedAccountReciever.toBase58())
-    if (!associatedAccountSource) {
-        // create an associated token account for recipient with sender funding
-
-
-    }
-    // recipient address already has associated token account so
-    // we can send tokens there
-    let t = new Token(connection, XEN_TOKEN_MINT_ADDRESS, TOKEN_PROGRAM_ID, feePayer)
     let taxCut = transferAmountLamports / 100
     let taxBurnInstruction = Token.createBurnInstruction(
         TOKEN_PROGRAM_ID,
@@ -71,17 +76,13 @@ export const doTransfer = async (dispatch, getState) => {
     transaction.recentBlockhash = (
         await connection.getRecentBlockhash()
     ).blockhash;
-    console.log("got blockhash adding transactionS")
     transaction.add(taxBurnInstruction)
     transaction.add(transactionInstruction)
     transaction.sign(feePayer)
 
     let signed = await wallet.signTransaction(transaction)
-    console.log("Transaction signed")
     let signature = await connection.sendRawTransaction(signed.serialize());
-    console.log('Submitted transaction ' + signature + ', awaiting confirmation');
     await connection.confirmTransaction(signature, 'singleGossip');
-    console.log('Transaction ' + signature + ' confirmed');
     dispatch(addTxInfo({
         "Transaction Signature": signature,
         "Transaction Status": "Success"
