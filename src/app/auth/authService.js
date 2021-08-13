@@ -6,12 +6,11 @@ export async function startConnection(dispatch, getState) {
     dispatch(connectionStart())
     let network = clusterApiUrl('devnet')
     let connection = new Connection(network);
-    let providerUrl = 'https://www.sollet.io';
     let wallet
     if (window.solana !== void 0)
         wallet = new Wallet(window.solana, network)
     else {
-        wallet = new Wallet(providerUrl, network);
+        wallet = new Wallet(getState.walletProviderUrl, network);
     }
     wallet.on('connect', publicKey => {
         dispatch(connectionSuccess({publicKey: publicKey, wallet: wallet, connection: connection}))

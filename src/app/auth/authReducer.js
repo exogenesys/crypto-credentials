@@ -4,16 +4,34 @@ import {updateObject} from '../util'
 const initialState = {
     user: null,
     is_connected: false,
+    connect_setup: false,
     connect_started: false,
     connect_inprogress: false,
     disconnecting: false,
     wallet: null,
-    connection: null
+    connection: null,
+    walletProvider: "sollet.io",
+    walletProviderUrl: "https://www.sollet.io",
+    walletProviderHasAdapter: false,
 }
 
 
 export default function AuthReducer(state=initialState, action) {
     switch(action.type) {
+
+        case authActions.CONNECT_SETUP: {
+            console.log(action)
+            let provider = ""
+            let data = {
+                walletProvider: provider,
+                walletProviderUrl: provider,
+                walletProviderHasAdapter: provider.adapter !== null,
+                wallet: provider.adapter,
+                connect_setup: true,
+            }
+            return updateObject(state, data)
+        }
+
         case authActions.CONNECT_START: {
             return updateObject(state, {
                 connect_inprogress: true,

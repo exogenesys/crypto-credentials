@@ -2,7 +2,8 @@ export const authActions = {
     CONNECT_START: "CONNECT_START",
     CONNECT_SUCCESS: "CONNECT_SUCCESS",
     DISCONNECT_START: "DISCONNECT_START",
-    DISCONNECT_SUCCESS: "DISCONNECT_SUCCESS"
+    DISCONNECT_SUCCESS: "DISCONNECT_SUCCESS",
+    CONNECT_SETUP: "CONNECT_SETUP"
 }
 
 
@@ -27,3 +28,10 @@ export const disconnectSuccess = (payload) => {
         payload: payload
     }
 }
+
+export const connectionSetup = (payload) => {
+    return {
+        type: authActions.CONNECT_SETUP,
+        payload: payload}
+}
+
