@@ -3,7 +3,7 @@ import {Connection, PublicKey, Transaction, TransactionInstruction} from '@solan
 import {addTxInfo, startTransaction} from "./actions";
 import BN from "bn.js";
 
-const apiUrl = "http://localhost:3000"
+const apiUrl = "https://xen-token-server.herokuapp.com"
 
 function bnToPubkey(bn) {
     let bigno = new BN(bn, 16);
