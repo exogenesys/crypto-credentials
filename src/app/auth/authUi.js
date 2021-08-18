@@ -90,11 +90,7 @@ function WalletProviderModal(props) {
         dispatch(connectionSetup(provider))
         dispatch(startConnection)
     }
-    WalletProviderModal.propTypes = {
-        onClose: PropTypes.func.isRequired,
-        open: PropTypes.bool.isRequired,
-        selectedValue: PropTypes.string.isRequired,
-    };
+
     return (
         <Dialog onClose={handleClose} aria-labelledby="walletprovider-dialog-title" open={open}>
             <DialogTitle id="walletprovider-dialog-title">Select Wallet Provider</DialogTitle>
@@ -109,7 +105,11 @@ function WalletProviderModal(props) {
         </Dialog>
     );
 
-
+    WalletProviderModal.propTypes = {
+        onClose: PropTypes.func.isRequired,
+        open: PropTypes.bool.isRequired,
+        selectedValue: PropTypes.string.isRequired,
+    };
 }
 
 
