@@ -5,7 +5,7 @@ import TransactionReducer from "./transaction/transactionReducer"
 
 
 export default configureStore({
-    reducer: combineReducers({auth: AuthReducer, transaction:TransactionReducer}),
-    middleware: [ thunkMiddleware ]
+    reducer: combineReducers({auth: AuthReducer, transaction: TransactionReducer}),
+    middleware: [thunkMiddleware]
 })
 

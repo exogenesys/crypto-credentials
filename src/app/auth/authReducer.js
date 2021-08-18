@@ -8,25 +8,25 @@ const initialState = {
     connect_started: false,
     connect_inprogress: false,
     disconnecting: false,
+    connectError: null,
     wallet: null,
     connection: null,
-    walletProvider: "sollet.io",
-    walletProviderUrl: "https://www.sollet.io",
+    walletProvider: "Phantom",
+    walletProviderUrl: "https://www.phantom.app",
     walletProviderHasAdapter: false,
 }
 
 
-export default function AuthReducer(state=initialState, action) {
-    switch(action.type) {
+export default function AuthReducer(state = initialState, action) {
+    switch (action.type) {
 
         case authActions.CONNECT_SETUP: {
             console.log(action)
-            let provider = ""
+            let provider = action.payload
             let data = {
-                walletProvider: provider,
-                walletProviderUrl: provider,
+                walletProvider: provider.name,
+                walletProviderUrl: provider.icon,
                 walletProviderHasAdapter: provider.adapter !== null,
-                wallet: provider.adapter,
                 connect_setup: true,
             }
             return updateObject(state, data)
@@ -41,7 +41,6 @@ export default function AuthReducer(state=initialState, action) {
         }
 
         case authActions.CONNECT_SUCCESS: {
-            console.log("Connected To: ", action.payload)
 
             return updateObject(state, {
                 connect_inprogress: false,
@@ -53,7 +52,7 @@ export default function AuthReducer(state=initialState, action) {
         }
 
         case authActions.DISCONNECT_START: {
-            return updateObject(state,{
+            return updateObject(state, {
                 is_connected: false,
                 disconnecting: true,
             })
@@ -66,6 +65,13 @@ export default function AuthReducer(state=initialState, action) {
 
             })
         }
-        default: return state
+
+        case authActions.CONNECT_ERROR: {
+            return updateObject(state, {
+                connectError: action.payload
+            })
+        }
+        default:
+            return state
     }
 }

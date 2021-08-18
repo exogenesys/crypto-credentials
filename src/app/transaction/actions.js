@@ -1,5 +1,3 @@
-
-
 export const transactionActions = {
     TRANSACTION_SETUP: "TRANSACTION_SETUP",
     TRANSACTION_START: "TRANSACTION_START",
@@ -8,21 +6,21 @@ export const transactionActions = {
     ADD_TX_INFO: "ADD_TX_INFO"
 }
 
-export const setupTransaction = (payload) =>  {
+export const setupTransaction = (payload) => {
     return {
         type: transactionActions.TRANSACTION_SETUP,
         payload: payload
     }
 }
 
-export const startTransaction = (payload) =>  {
+export const startTransaction = (payload) => {
     return {
         type: transactionActions.TRANSACTION_START,
         payload: payload
     }
 }
 
-export const endTransaction = (payload) =>  {
+export const endTransaction = (payload) => {
     return {
         type: transactionActions.TRANSACTION_END,
         payload: payload

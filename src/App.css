@@ -1,18 +1,40 @@
-
+body, #root, #root > div {
+    height: 100vh;
+}
 
 .transfer-container {
-    display: flex;
-    flex-direction: column;
 
-    justify-content: center;
-    align-items: center;
 }
 
 .MuiFormControl-root {
     margin: 10px;
     width: 500px;
+
 }
 
-button {
+.transfer-container > button {
     margin: 20px;
 }
+
+ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.choose-wallet-btn {
+    width: 70%;
+    margin: 20px;
+}
+
+.center {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+
+}
+
