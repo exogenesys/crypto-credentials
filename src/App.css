@@ -1,19 +1,103 @@
+#root {
+    --primary-color: #3f51b5;
+    --primary-color-bold: #1c31a3;
+    --secondary-color: #FFEFB8;
+}
+
+
 body, #root, #root > div {
     height: 100vh;
+    font-family: 'Source Sans Pro', sans-serif;
+    background: var(--secondary-color);
+    margin: 0;
+    box-sizing: border-box;
+
 }
 
-.transfer-container {
-
+h2 {
+    font-width: 400;
 }
+
+.wallet-provider-overlay {
+    position: absolute;
+    background: var(--secondary-color);
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+.wallet-provider-modal {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 75px;
+    background: white;
+    border-radius: 6px;
+    box-shadow: -1px 16px 19px rgba(0, 0, 0, 0.26);
+}
+
+.choose-wallet-btn {
+    width: 200px;
+    border: 3px solid var(--primary-color-bold);
+    border-radius: 14px 7px 14px 7px;
+    padding: 12px;
+    font-size: 1rem;
+    margin: 7px;
+    cursor: pointer;
+    outline: none;
+}
+.transaction-status-modal {
+    height: 100%;
+    padding: 0;
+    background: var(--secondary-color);
+}
+
+.transaction-status-modal > span {
+    font-size: large;
+}
+
+.transaction-result-modal-close {
+    position: absolute;
+    cursor: pointer;
+    top: 40px;
+    right: 40px;
+}
+.choose-wallet-btn:hover {
+    background: var(--primary-color);
+    color: white
+}
+
+.wallet-provider-close {
+    position: absolute;
+    cursor: pointer;
+    top: 20px;
+    right: 20px;
+}
+
+.wallet-provider-close:hover {
+    transform: scale(1.05);
+}
+.wallets-list {
+    padding: 0;
+}
+
+
+
 
 .MuiFormControl-root {
     margin: 10px;
-    width: 500px;
+    width: 90%;
 
 }
 
-.transfer-container > button {
+#transfer-btn {
     margin: 20px;
+}
+
+h1 {
+    font-size: 2em;
+    font-weight: 400;
 }
 
 ul {
@@ -23,10 +107,10 @@ ul {
     align-items: center;
 }
 
-.choose-wallet-btn {
-    width: 70%;
-    margin: 20px;
-}
+
+
+
+
 
 .center {
     width: 100%;
@@ -38,3 +122,225 @@ ul {
 
 }
 
+.transfer-container {
+    width: 35%;
+    height: 500px;
+    border-radius: 6px;
+    padding: 30px;
+    align-self: center;
+    justify-self: center;
+    overflow: hidden;
+    box-shadow: -1px 16px 19px rgba(0, 0, 0, 0.26);
+    background: white;
+}
+
+.form-field {
+    display: block;
+    width: 70%;
+    padding: 8px 16px;
+    line-height: 25px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: inherit;
+    border-radius: 6px;
+    -webkit-appearance: none;
+    border: 1px solid #b5b5b5;
+    transition: border 0.3s ease;
+}
+
+.form-field:focus {
+    outline: var(--primary-color);
+}
+
+.form-group {
+    display: flex;
+    margin: 30px;
+    justify-content: center;
+
+}
+
+.form-group > span {
+    background: var(--primary-color);
+    color: white;
+    padding: 7px 10px;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 5px;
+    position: relative;
+    font-size: small;
+}
+
+.form-group > span::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -3px;
+    width: 8px;
+    height: 100%;
+    background: var(--primary-color);
+}
+
+.button {
+    border: none;
+    background: var(--primary-color-bold);
+    color: white;
+    padding: 15px 30px;
+    width: 200px;
+    border-radius: 3px;
+    font-size: 1rem;
+    outline: none;
+    cursor: pointer;
+}
+
+.button:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+.transfer-form {
+    width: 100%;
+}
+.error-popup {
+    display: flex;
+    justify-content: flex-start;
+    padding: 15px 15px;
+    align-items: center;
+    position: absolute;
+    width: 300px;
+    background: #3f51b5f2;
+    color: white;
+    border-radius: 4px;
+    box-shadow: -1px 16px 19px rgba(0, 0, 0, 0.26);
+    top: 40px;
+    right: 20px;
+}
+
+.error-popup:hover {
+    background: var(--primary-color);
+}
+
+.error-popup::before {
+    content: "";
+    height: 100%;
+    background: #FFDA59;
+    position: absolute;
+    left: 0;
+    border-radius: 5px;
+    width: 2px;
+
+}
+
+.error-message {
+    font-size: 1em;
+    margin-left: 3px;
+    font-weight: 400;
+}
+
+.close-error-popup {
+    position: absolute;
+    right: 3px;
+    top: 3px;
+    cursor: pointer;
+    pointer-events: all;
+}
+
+.close-error-popup:hover {
+
+}
+
+
+.loading-spinner {
+    position: absolute;
+    z-index: 100000000;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(45, 50, 55, 0.5);
+}
+
+.lds-roller {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+.lds-roller div {
+    animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    transform-origin: 40px 40px;
+}
+.lds-roller div:after {
+    content: " ";
+    display: block;
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: white;
+    margin: -4px 0 0 -4px;
+}
+.lds-roller div:nth-child(1) {
+    animation-delay: -0.036s;
+}
+.lds-roller div:nth-child(1):after {
+    top: 63px;
+    left: 63px;
+}
+.lds-roller div:nth-child(2) {
+    animation-delay: -0.072s;
+}
+.lds-roller div:nth-child(2):after {
+    top: 68px;
+    left: 56px;
+}
+.lds-roller div:nth-child(3) {
+    animation-delay: -0.108s;
+}
+.lds-roller div:nth-child(3):after {
+    top: 71px;
+    left: 48px;
+}
+.lds-roller div:nth-child(4) {
+    animation-delay: -0.144s;
+}
+.lds-roller div:nth-child(4):after {
+    top: 72px;
+    left: 40px;
+}
+.lds-roller div:nth-child(5) {
+    animation-delay: -0.18s;
+}
+.lds-roller div:nth-child(5):after {
+    top: 71px;
+    left: 32px;
+}
+.lds-roller div:nth-child(6) {
+    animation-delay: -0.216s;
+}
+.lds-roller div:nth-child(6):after {
+    top: 68px;
+    left: 24px;
+}
+.lds-roller div:nth-child(7) {
+    animation-delay: -0.252s;
+}
+.lds-roller div:nth-child(7):after {
+    top: 63px;
+    left: 17px;
+}
+.lds-roller div:nth-child(8) {
+    animation-delay: -0.288s;
+}
+.lds-roller div:nth-child(8):after {
+    top: 56px;
+    left: 12px;
+}
+@keyframes lds-roller {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

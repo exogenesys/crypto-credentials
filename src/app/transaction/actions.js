@@ -3,7 +3,9 @@ export const transactionActions = {
     TRANSACTION_START: "TRANSACTION_START",
     TRANSACTION_END: "TRANSACTION_END",
     TRANSACTION_RESET: "TRANSACTION_RESET",
-    ADD_TX_INFO: "ADD_TX_INFO"
+    ADD_TX_INFO: "ADD_TX_INFO",
+    TRANSACTION_ERROR: "TRANSACTION_ERROR",
+    TRANSACTION_ERROR_RESET: "TRANSACTION_ERROR_RESET"
 }
 
 export const setupTransaction = (payload) => {
@@ -37,6 +39,20 @@ export const resetTransaction = (payload) => {
 export const addTxInfo = (payload) => {
     return {
         type: transactionActions.ADD_TX_INFO,
+        payload: payload
+    }
+}
+
+export const setError = (payload) => {
+    return {
+        type: transactionActions.TRANSACTION_ERROR,
+        payload: payload
+    }
+}
+
+export const resetError = (payload) => {
+    return {
+        type: transactionActions.TRANSACTION_ERROR_RESET,
         payload: payload
     }
 }

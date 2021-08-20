@@ -7,6 +7,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import List from "@material-ui/core/List";
 import {connectionSetup} from "./actions";
+import {Close} from "@material-ui/icons";
 
 const wallet_providers = [
     {
@@ -68,9 +69,9 @@ export default function AuthRedirect() {
     }
     return (
         <div className={"center"}>
-            <Button variant="contained" color="primary" disableElevation onClick={() => setOpen(true)}>
+            <button className={"button"} onClick={() => setOpen(true)}>
                 Connect Wallet
-            </Button>
+            </button>
             <WalletProviderModal selectedValue={selectedValue} open={open} onClose={handleClose}/>
         </div>
 
@@ -90,21 +91,27 @@ function WalletProviderModal(props) {
         dispatch(connectionSetup(provider))
         dispatch(startConnection)
     }
+    if (open) {
+        return (
+            <div className={"wallet-provider-overlay center"} >
+                <div className="wallet-provider-modal" onClose={handleClose} aria-labelledby="walletprovider-dialog-title">
+                    <h1 id="walletprovider-dialog-title">Select Wallet Provider</h1>
+                    <ul className={"wallets-list"}>
+                        {wallet_providers.map((provider, url) => (
+                            <button className="choose-wallet-btn" color="secondary" variant={"outlined"}
+                                    onClick={() => handleConnect(provider)} key={provider.url}>
+                                {provider.name}
+                            </button>
+                        ))}
+                    </ul>
 
-    return (
-        <Dialog onClose={handleClose} aria-labelledby="walletprovider-dialog-title" open={open}>
-            <DialogTitle id="walletprovider-dialog-title">Select Wallet Provider</DialogTitle>
-            <List>
-                {wallet_providers.map((provider, url) => (
-                    <Button className="choose-wallet-btn" color="secondary" variant={"outlined"}
-                            onClick={() => handleConnect(provider)} key={provider.url}>
-                        {provider.name}
-                    </Button>
-                ))}
-            </List>
-        </Dialog>
-    );
+                    <Close className={"wallet-provider-close"} fontSize={"large"} onClick={handleClose}/>
+                </div>
+            </div>
+        );
+    }
 
+    return (<></>)
     WalletProviderModal.propTypes = {
         onClose: PropTypes.func.isRequired,
         open: PropTypes.bool.isRequired,

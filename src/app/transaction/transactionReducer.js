@@ -2,15 +2,17 @@ import {transactionActions} from "./actions";
 import {updateObject} from '../util'
 
 const initialState = {
-    signer: null,
     transactionInProgress: false,
     transactionComplete: false,
     transaction: null,
     transactionSetup: false,
     targetAddress: null,
     transferAmount: 0,
-    feePayer: [227, 139, 220, 233, 57, 200, 118, 150, 232, 169, 207, 228, 164, 29, 52, 137, 239, 88, 87, 85, 19, 156, 194, 178, 7, 54, 183, 144, 172, 114, 28, 158, 9, 157, 203, 244, 142, 196, 12, 52, 30, 111, 152, 101, 2, 120, 156, 11, 12, 54, 214, 6, 131, 18, 222, 139, 237, 9, 52, 229, 128, 208, 203, 84],
-    transactionInfo: {}
+    transactionInfo: {},
+    transactionError: null,
+    isError: false,
+    prevTransactionError: null,
+    transactionSignature: null,
 }
 
 export default function TransactionReducer(state = initialState, action) {
@@ -20,7 +22,8 @@ export default function TransactionReducer(state = initialState, action) {
             return updateObject(state, {
                 transactionSetup: true,
                 targetAddress: action.payload.targetAddress,
-                transferAmount: action.payload.transferAmount
+                transferAmount: action.payload.transferAmount,
+                transactionComplete: false,
             })
         }
 
@@ -31,12 +34,50 @@ export default function TransactionReducer(state = initialState, action) {
             })
         }
 
-        case transactionActions.ADD_TX_INFO: {
+        case transactionActions.TRANSACTION_END: {
             return updateObject(state, {
-                transactionInfo: updateObject(state.transactionInfo, action.payload)
+                transactionComplete: true,
+                transactionInProgress: false,
+                transactionSignature: action.payload.signature
             })
         }
 
+        case transactionActions.ADD_TX_INFO: {
+            return updateObject(state, {
+                transactionInfo:  action.payload
+            })
+        }
+
+        case transactionActions.TRANSACTION_ERROR: {
+            return updateObject(state, {
+                transactionError: action.payload,
+                isError: true,
+                transactionInProgress: false
+            })
+        }
+
+        case transactionActions.TRANSACTION_RESET: {
+            return updateObject(state, {
+                transactionInProgress: false,
+                transactionComplete: false,
+                transaction: null,
+                transactionSetup: false,
+                targetAddress: null,
+                transferAmount: 0,
+                transactionInfo: {},
+                transactionError: null,
+                prevTransactionError: null,
+                isError: false,
+            })
+        }
+
+        case transactionActions.TRANSACTION_ERROR_RESET: {
+            return updateObject(state, {
+                isError: false,
+                prevTransactionError: state.transactionError,
+                transactionError: null
+            })
+        }
 
         default:
             return state

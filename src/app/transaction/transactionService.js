@@ -1,6 +1,6 @@
 import {Connection, PublicKey, Transaction, TransactionInstruction} from '@solana/web3.js'
 
-import {addTxInfo, startTransaction} from "./actions";
+import {addTxInfo, endTransaction, setError, startTransaction} from "./actions";
 import BN from "bn.js";
 
 const apiUrl = "https://xen-token-server.herokuapp.com"
@@ -33,8 +33,7 @@ function parseTransaction(tx) {
             new TransactionInstruction({
                 data: Uint8Array.from(instruction.data.data),
                 keys: keys,
-                programId: bnToPubkey(instruction.programId._bn)
-
+                programId: bnToPubkey(instruction.programId._bn),
             })
         )
     }
@@ -56,11 +55,11 @@ export const doTransfer = async (dispatch, getState) => {
     dispatch(startTransaction())
 
     let state = getState()
+
     let {wallet} = state.auth
     let {targetAddress, transferAmount} = state.transaction
     try {
         let connection = new Connection("https://api.devnet.solana.com")
-        dispatch(addTxInfo({"Connected To Cluster": connection.url, "Processing Request": "..."}))
 
         /* Get a fee-payer signed transfer instruction with 1% token tax reduced from transfer amount
            Body: wallet = the senders address,
@@ -79,6 +78,7 @@ export const doTransfer = async (dispatch, getState) => {
                 wallet: wallet.publicKey.toBase58(),
                 transferAmount: transferAmount,
                 targetAddress: targetAddress,
+                token: "XEN"
             })
         })
 
@@ -87,14 +87,12 @@ export const doTransfer = async (dispatch, getState) => {
 
         // sign the received transaction with our own keypair and send the transaction to a cluster.
         let signed = await wallet.signTransaction(tx)
-        console.log(signed)
         let signature = await connection.sendRawTransaction(signed.serialize());
-        dispatch(addTxInfo({"Signature": signature, "Confirming Signature": "..."}))
-        let confirmSignature = await connection.confirmTransaction(signature);
         dispatch(addTxInfo({"Signature Confirmed": "Success"}))
+        dispatch(endTransaction({signature: signature}))
         console.log(signature)
     } catch (e) {
-        dispatch(addTxInfo({"An Error Occured": e}))
+        dispatch(setError(e.message))
     }
 
 

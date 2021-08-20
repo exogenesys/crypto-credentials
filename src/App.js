@@ -3,7 +3,9 @@ import AuthRedirect from "./app/auth/authUi";
 import "./App.css"
 
 export default function App() {
-    return (<div>
+    return (
+        <div className={"center"}>
         <AuthRedirect/>
-    </div>)
+        </div>
+    )
 }
