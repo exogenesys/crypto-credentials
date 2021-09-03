@@ -12,18 +12,15 @@ export default function AuthRedirect() {
   return (
     <div>
       <Navbar />
-      <div className="container">
-        <section className="section">
-          <h1 className="title">
-            {" "}
-            Welcome to{" "}
-            <a href="https://credentials.online">Credentials.Online!</a>
+      <section className="hero is-primary is-bold is-large">
+        <div className="hero-body">
+          <h1 className="title is-1">
+            Welcome To{" "}
+            <span className=" is-underlined">Crypto Credentials</span> 🎓
           </h1>
-          <h2 className="subtitle">
-            Get started by editing <code>pages/index.js</code>
-          </h2>
-        </section>
-      </div>
+          <p className="subtitle">Link subtitle</p>
+        </div>
+      </section>
       <Footer />
     </div>
   );

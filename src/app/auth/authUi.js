@@ -70,17 +70,13 @@ export default function AuthRedirect() {
   return (
     <div>
       <Navbar />
-      <div className="container">
-        <section className="section">
-          <h1 className="title">
-            {" "}
-            Welcome to{" "}
-            <a href="https://credentials.online">Credentials.Online!</a>
+      <section className="hero is-warning is-bold is-large">
+        <div className="hero-body">
+          <h1 className="title is-1">
+            Welcome To{" "}
+            <span className=" is-underlined">Crypto Credentials</span> 🎓
           </h1>
-          <h2 className="subtitle">
-            Get started by editing <code>pages/index.js</code>
-          </h2>
-          <div className={"center"}>
+          <p>
             <button
               className={"button is-medium is-rounded"}
               onClick={() => setOpen(true)}
@@ -90,14 +86,14 @@ export default function AuthRedirect() {
               </span>
               <span>Connect Wallet</span>
             </button>
-            <WalletProviderModal
-              selectedValue={selectedValue}
-              open={open}
-              onClose={handleClose}
-            />
-          </div>
-        </section>
-      </div>
+          </p>
+        </div>
+      </section>
+      <WalletProviderModal
+        selectedValue={selectedValue}
+        open={open}
+        onClose={handleClose}
+      />
       <Footer />
     </div>
   );
