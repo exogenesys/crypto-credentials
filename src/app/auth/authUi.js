@@ -1,13 +1,8 @@
 import React from "react";
-import { Button } from "@material-ui/core";
 import { useDispatch, useSelector, useStore } from "react-redux";
 import { startConnection } from "./authService";
 import { TransactionPage } from "../transaction/transactionUi";
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import List from "@material-ui/core/List";
 import { connectionSetup } from "./actions";
-import { Close } from "@material-ui/icons";
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -126,7 +121,7 @@ function WalletProviderModal(props) {
           <section className="modal-card-body">
             {wallet_providers.map((provider, url) => (
               <button
-                className="button is-fullwidth is-medium my-1"
+                className="button is-fullwidth is-dark is-outlined is-rounded is-medium my-1"
                 onClick={() => handleConnect(provider)}
                 key={provider.url}
               >
