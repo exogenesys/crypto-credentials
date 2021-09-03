@@ -30,7 +30,10 @@ export default function Navbar() {
         <div className="navbar-end">
           <div className="navbar-item">
             <Link className="button is-rounded is-black" to="/login">
-              University Login
+              <span className="icon">
+                <i className="fas fa-university"></i>
+              </span>
+              <span>University Login</span>
             </Link>
           </div>
         </div>
