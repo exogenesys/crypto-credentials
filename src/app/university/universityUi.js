@@ -20,6 +20,9 @@ import ListItem from "@material-ui/core/ListItem";
 import FormGroup from "@material-ui/core/FormGroup";
 import { Close, ErrorOutline } from "@material-ui/icons";
 import { PublicKey } from "@solana/web3.js";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import { useHistory } from "react-router-dom";
 
 const TransactionPage = () => {
   let dispatch = useDispatch();
@@ -178,5 +181,26 @@ const TransactionResultModal = (props) => {
   }
   return <></>;
 };
+const UniversityPage = () => {
+  const isConnected = useSelector((store) => store.auth.is_connected);
+  if (!isConnected) {
+    let history = useHistory();
+    history.push("/login");
+  }
+  const publicKey = useSelector((store) => store.auth.wallet._publicKey);
+  console.log(publicKey.toString());
+  return (
+    <div>
+      <Navbar />
+      <section className="hero is-danger">
+        <div className="hero-body">
+          <p className="title">Dashboard</p>
+          <p className="subtitle">{publicKey.toString()}</p>
+        </div>
+      </section>
+      <Footer />
+    </div>
+  );
+};
 
-export default TransactionPage;
+export default UniversityPage;

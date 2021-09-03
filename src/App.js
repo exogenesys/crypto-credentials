@@ -18,6 +18,10 @@ export default function App() {
         <Route path="/university">
           <University />
         </Route>
+        <Route
+          path="/demo-video"
+          render={() => (window.location = "https://www.google.com")}
+        />
       </Switch>
     </BrowserRouter>
   );
