@@ -19,7 +19,7 @@ code {
 #root {
   --primary-color: #3f51b5;
   --primary-color-bold: #1c31a3;
-  --secondary-color: #ffefb8;
+  --secondary-color: #fff;
 }
 
 body,
@@ -28,10 +28,6 @@ body,
   height: 100vh;
   background: var(--secondary-color);
   box-sizing: border-box;
-}
-
-h2 {
-  font-width: 400;
 }
 
 .wallet-provider-overlay {
@@ -107,27 +103,6 @@ h2 {
   margin: 20px;
 }
 
-h1 {
-  font-size: 2em;
-  font-weight: 400;
-}
-
-ul {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.center {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  flex-direction: column;
-}
-
 .transfer-container {
   width: 35%;
   height: 500px;
@@ -183,23 +158,6 @@ ul {
   width: 8px;
   height: 100%;
   background: var(--primary-color);
-}
-
-.button {
-  border: none;
-  background: var(--primary-color-bold);
-  color: white;
-  padding: 15px 30px;
-  width: 200px;
-  border-radius: 3px;
-  font-size: 1rem;
-  outline: none;
-  cursor: pointer;
-}
-
-.button:hover {
-  background: var(--primary-color);
-  color: white;
 }
 
 .transfer-form {
