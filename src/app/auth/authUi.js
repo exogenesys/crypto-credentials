@@ -3,6 +3,7 @@ import { useDispatch, useSelector, useStore } from "react-redux";
 import { startConnection } from "./authService";
 import { TransactionPage } from "../transaction/transactionUi";
 import { connectionSetup } from "./actions";
+import { useHistory } from "react-router-dom";
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -60,7 +61,8 @@ export default function AuthRedirect() {
 
   let isConnected = useSelector((state) => state.auth.is_connected);
   if (isConnected) {
-    return <TransactionPage />;
+    let history = useHistory();
+    history.push("/university");
   }
   return (
     <div>
