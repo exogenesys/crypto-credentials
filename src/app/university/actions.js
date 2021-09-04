@@ -1,5 +1,6 @@
 export const transactionActions = {
   UPDATE_BALANCE: "UPDATE_BALANCE",
+  INIT_PROGRAM: "INIT_PROGRAM",
   TRANSACTION_SETUP: "TRANSACTION_SETUP",
   TRANSACTION_START: "TRANSACTION_START",
   TRANSACTION_END: "TRANSACTION_END",
@@ -8,6 +9,14 @@ export const transactionActions = {
   TRANSACTION_ERROR: "TRANSACTION_ERROR",
   TRANSACTION_ERROR_RESET: "TRANSACTION_ERROR_RESET",
 };
+
+export const initProgram = (payload) => {
+  return {
+    type: transactionActions.INIT_PROGRAM,
+    payload: payload,
+  };
+};
+
 export const updateBalance = (payload) => {
   return {
     type: transactionActions.UPDATE_BALANCE,

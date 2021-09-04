@@ -3,6 +3,11 @@ import { updateObject } from "../util";
 
 const initialState = {
   balance: 0,
+  numberOfCourses: 0,
+  numberOfStudents: 0,
+  numberOfCredentials: 0,
+  program: null,
+  provider: null,
   transactionInProgress: false,
   transactionComplete: false,
   transaction: null,
@@ -18,6 +23,13 @@ const initialState = {
 
 export default function UniversityReducer(state = initialState, action) {
   switch (action.type) {
+    case transactionActions.INIT_PROGRAM: {
+      return updateObject(state, {
+        program: action.payload.program,
+        provider: action.payload.provider,
+      });
+    }
+
     case transactionActions.UPDATE_BALANCE: {
       const formattedBalance = (
         action.payload.balance /
