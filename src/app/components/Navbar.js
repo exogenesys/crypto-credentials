@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import LoginButton from "./LoginButton";
 
 export default function Navbar() {
   function toggleBurgerMenu() {
@@ -29,12 +30,7 @@ export default function Navbar() {
 
         <div className="navbar-end">
           <div className="navbar-item">
-            <Link className="button is-rounded is-black" to="/login">
-              <span className="icon">
-                <i className="fas fa-university"></i>
-              </span>
-              <span>University Login</span>
-            </Link>
+            <LoginButton />
           </div>
         </div>
       </div>
