@@ -46,16 +46,15 @@ export const getBalanceOfWallet = async (dispatch, getState) => {
   const { wallet } = state.auth;
   const balance = await getBalance(
     config.localnet.clursterUrl,
-    , wallet._publicKey);
+    wallet._publicKey
+  );
   dispatch(updateBalance({ balance }));
 };
 
 export const initProgramFromIdl = async (dispatch, getState) => {
   const state = getState();
   const { wallet } = state.auth;
-  const connection = new Connection(
-    config.localnet.clursterUrl
-  );
+  const connection = new Connection(config.localnet.clursterUrl);
   const provider = new anchor.Provider(connection, wallet, {
     preflightCommitment: "recent",
     commitment: "recent",
