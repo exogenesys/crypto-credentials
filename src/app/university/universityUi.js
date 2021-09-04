@@ -14,7 +14,11 @@ import {
   setError,
   setupTransaction,
 } from "./actions";
-import { doTransfer, requestAirdrop } from "./universityService";
+import {
+  doTransfer,
+  requestAirdropAndNotify,
+  getBalanceOfWallet,
+} from "./universityService";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import FormGroup from "@material-ui/core/FormGroup";
@@ -183,13 +187,14 @@ const TransactionResultModal = (props) => {
 };
 const UniversityPage = () => {
   const isConnected = useSelector((store) => store.auth.is_connected);
+  const balance = useSelector((store) => store.university.balance);
   if (!isConnected) {
     let history = useHistory();
     history.push("/login");
   }
   const publicKey = useSelector((store) => store.auth.wallet._publicKey);
-  console.log(publicKey.toString());
   const dispatch = useDispatch();
+  dispatch(getBalanceOfWallet);
   return (
     <div>
       <Navbar />
@@ -204,7 +209,7 @@ const UniversityPage = () => {
           <div className="navbar-item">
             <button
               className="button is-success is-light"
-              onClick={() => dispatch(requestAirdrop)}
+              onClick={() => dispatch(requestAirdropAndNotify)}
             >
               <span className="icon">
                 <i className="fas fa-coins"></i>
@@ -215,12 +220,12 @@ const UniversityPage = () => {
           <div className="navbar-item">
             <button
               className="button is-info is-light is-outlined"
-              onClick={() => dispatch(requestAirdrop)}
+              onClick={() => dispatch(getBalanceOfWallet)}
             >
               <span className="icon">
                 <i className="fas fa-sync"></i>
               </span>
-              <span>Refresh Data</span>
+              <span>Refresh Balance</span>
             </button>
           </div>
         </nav>
@@ -229,8 +234,8 @@ const UniversityPage = () => {
         <nav className="level">
           <div className="level-item has-text-centered">
             <div>
-              <p className="heading">Balance</p>
-              <p className="title">3,456 Sol</p>
+              <p className="heading">Balance (SOL)</p>
+              <p className="title">{balance}</p>
             </div>
           </div>
           <div className="level-item has-text-centered">

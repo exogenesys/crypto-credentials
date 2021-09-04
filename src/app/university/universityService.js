@@ -10,10 +10,12 @@ import {
   endTransaction,
   setError,
   startTransaction,
+  updateBalance,
 } from "./actions";
 import BN from "bn.js";
 import { toast } from "bulma-toast";
 import { DEVNET_URL } from "../constants";
+import { requestAirdrop, getBalance } from "../solana/utils";
 
 const apiUrl = "https://xen-token-server.herokuapp.com";
 
@@ -109,19 +111,21 @@ export const doTransfer = async (dispatch, getState) => {
   }
 };
 
-export const requestAirdrop = async (dispatch, getState) => {
+export const requestAirdropAndNotify = async (dispatch, getState) => {
   const state = getState();
   const { wallet } = state.auth;
-  console.log(wallet);
-  let connection = new Connection(DEVNET_URL);
-  const tx = await connection.confirmTransaction(
-    await connection.requestAirdrop(wallet._publicKey, 500),
-    "confirmed"
-  );
+  const tx = await requestAirdrop(DEVNET_URL, wallet._publicKey, 1);
   toast({
     message: tx.value.err == null ? "Airdrop Successful!" : "Airdrop failed",
     type: "is-info",
     duration: 2000,
     position: "bottom-left",
   });
+};
+
+export const getBalanceOfWallet = async (dispatch, getState) => {
+  const state = getState();
+  const { wallet } = state.auth;
+  const balance = await getBalance(DEVNET_URL, wallet._publicKey);
+  dispatch(updateBalance({ balance }));
 };
