@@ -13,7 +13,10 @@ export default function AuthRedirect() {
             Welcome To{" "}
             <span className=" is-underlined">Crypto Credentials</span> 🎓
           </h1>
-          <p className="subtitle">Link subtitle</p>
+          <p className="subtitle">
+            platform for educators to give credentials to their students
+            on-chain
+          </p>
         </div>
       </section>
       <Footer />
