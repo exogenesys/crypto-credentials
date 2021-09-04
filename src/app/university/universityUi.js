@@ -14,7 +14,7 @@ import {
   setError,
   setupTransaction,
 } from "./actions";
-import { doTransfer } from "./universityService";
+import { doTransfer, requestAirdrop } from "./universityService";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import FormGroup from "@material-ui/core/FormGroup";
@@ -189,6 +189,7 @@ const UniversityPage = () => {
   }
   const publicKey = useSelector((store) => store.auth.wallet._publicKey);
   console.log(publicKey.toString());
+  const dispatch = useDispatch();
   return (
     <div>
       <Navbar />
@@ -198,6 +199,61 @@ const UniversityPage = () => {
           <p className="subtitle">{publicKey.toString()}</p>
         </div>
       </section>
+      <section className="py-1">
+        <nav className="navbar">
+          <div className="navbar-item">
+            <button
+              className="button is-success is-light"
+              onClick={() => dispatch(requestAirdrop)}
+            >
+              <span className="icon">
+                <i className="fas fa-coins"></i>
+              </span>
+              <span>Request Airdrop</span>
+            </button>
+          </div>
+          <div className="navbar-item">
+            <button
+              className="button is-info is-light is-outlined"
+              onClick={() => dispatch(requestAirdrop)}
+            >
+              <span className="icon">
+                <i className="fas fa-sync"></i>
+              </span>
+              <span>Refresh Data</span>
+            </button>
+          </div>
+        </nav>
+      </section>
+      <section className="py-6">
+        <nav className="level">
+          <div className="level-item has-text-centered">
+            <div>
+              <p className="heading">Balance</p>
+              <p className="title">3,456 Sol</p>
+            </div>
+          </div>
+          <div className="level-item has-text-centered">
+            <div>
+              <p className="heading">Total Courses</p>
+              <p className="title">123</p>
+            </div>
+          </div>
+          <div className="level-item has-text-centered">
+            <div>
+              <p className="heading">Total Students</p>
+              <p className="title">456K</p>
+            </div>
+          </div>
+          <div className="level-item has-text-centered">
+            <div>
+              <p className="heading">Total Credentials Issued</p>
+              <p className="title">789</p>
+            </div>
+          </div>
+        </nav>
+      </section>
+      <section></section>
       <Footer />
     </div>
   );

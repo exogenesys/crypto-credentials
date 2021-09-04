@@ -19,6 +19,7 @@
     "bn.js": "^5.2.0",
     "borsh": "^0.4.0",
     "bulma": "^0.9.3",
+    "bulma-toast": "^2.4.1",
     "eventemitter3": "^4.0.7",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
