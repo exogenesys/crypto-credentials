@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Button,
-  FormControl,
-  IconButton,
-  Input,
-  InputLabel,
-  Typography,
-} from "@material-ui/core";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector, useStore } from "react-redux";
 import {
   resetError,
@@ -19,13 +12,10 @@ import {
   requestAirdropAndNotify,
   getBalanceOfWallet,
   initProgramFromIdl,
-  createCourse,
-  createCollege,
   createUniversity,
   fetchUniveristyAccount,
+  onUniversityLogin,
 } from "./universityService";
-import { Close, ErrorOutline } from "@material-ui/icons";
-import { PublicKey } from "@solana/web3.js";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useHistory } from "react-router-dom";
@@ -42,17 +32,24 @@ const UniversityPage = () => {
   }
   const publicKey = useSelector((store) => store.auth.wallet._publicKey);
   const dispatch = useDispatch();
+
   useMemo(() => {
-    dispatch(getBalanceOfWallet);
-    dispatch(initProgramFromIdl);
-  }, [balance]);
+    dispatch(onUniversityLogin);
+  }, []);
+
   return (
     <div>
       <Navbar />
-      <section className="hero is-danger">
+      <section className="hero is-danger is-bold">
         <div className="hero-body">
           <p className="title">Dashboard</p>
           <p className="subtitle">{publicKey.toString()}</p>
+          <Link className="button is-rounded" to="/edit-university">
+            <span className="icon">
+              <i className="fas fa-edit"></i>
+            </span>
+            <span>Edit University Profile</span>
+          </Link>
         </div>
       </section>
       <section className="py-1">
@@ -87,29 +84,7 @@ const UniversityPage = () => {
               <span className="icon">
                 <i className="fas fa-sync"></i>
               </span>
-              <span>Get University Account</span>
-            </button>
-          </div>
-          <div className="navbar-item">
-            <button
-              className="button is-success is-light is-outlined"
-              onClick={() => dispatch(createCourse)}
-            >
-              <span className="icon">
-                <i className="fas fa-sync"></i>
-              </span>
-              <span>Create Course</span>
-            </button>
-          </div>
-          <div className="navbar-item">
-            <button
-              className="button is-success is-light is-outlined"
-              onClick={() => dispatch(createCollege)}
-            >
-              <span className="icon">
-                <i className="fas fa-sync"></i>
-              </span>
-              <span>Create College</span>
+              <span>Load Program</span>
             </button>
           </div>
           <div className="navbar-item">
@@ -131,7 +106,7 @@ const UniversityPage = () => {
               <span className="icon">
                 <i className="fas fa-sync"></i>
               </span>
-              <span>Fetch University</span>
+              <span>Fetch University Account</span>
             </button>
           </div>
         </nav>

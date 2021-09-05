@@ -12,6 +12,7 @@ import {
   startTransaction,
   updateBalance,
   initProgram,
+  loadUniversityData,
 } from "./actions";
 import BN from "bn.js";
 import { toast } from "bulma-toast";
@@ -65,81 +66,6 @@ export const initProgramFromIdl = async (dispatch, getState) => {
   dispatch(initProgram({ program, provider }));
 };
 
-export const createCourse = async (dispatch, getState) => {
-  dispatch(startTransaction);
-  const state = getState();
-  const program = state.university.program;
-  const provider = state.university.provider;
-
-  const publicKey = state.auth.wallet._publicKey;
-  const collegeAuthority = anchor.web3.Keypair.generate();
-  console.log("collegeAuthority", collegeAuthority.publicKey.toString());
-
-  const [courseKey, courseBump] =
-    await anchor.web3.PublicKey.findProgramAddress(
-      [publicKey.toBuffer(), Buffer.from(UNIVERSITY_ACCOUNT_PDA_SEED)],
-      program.programId
-    );
-  console.log("courseKey", courseKey.toString());
-
-  const courseNameInput = "CS101";
-  await program.rpc.createCourse(
-    courseNameInput,
-    new anchor.BN(1),
-    courseBump,
-    {
-      accounts: {
-        course: courseKey,
-        college: publicKey,
-        authority: collegeAuthority.publicKey,
-        systemProgram: anchor.web3.SystemProgram.programId,
-      },
-      signers: [collegeAuthority],
-    }
-  );
-  const course = await program.account.course.fetch(courseKey);
-  console.log("course.name", course.name);
-  console.log("courseNameInput", courseNameInput);
-  console.log("course.authority", course.authority.toString());
-  dispatch(endTransaction);
-};
-
-export const createCollege = async (dispatch, getState) => {
-  dispatch(startTransaction);
-  const state = getState();
-  const program = state.university.program;
-  const provider = state.university.provider;
-
-  console.log(provider.wallet.payer);
-
-  const publicKey = state.auth.wallet._publicKey;
-  const collegeAuthority = anchor.web3.Keypair.generate();
-  console.log("collegeAuthority", collegeAuthority.publicKey.toString());
-
-  const boardName = "Oxford College";
-
-  await program.rpc.createCollege(boardName, {
-    accounts: {
-      college: collegeAccount.publicKey,
-      authority: collegeAuthority.publicKey,
-      rent: anchor.web3.SYSVAR_RENT_PUBKEY,
-      systemProgram: anchor.web3.SystemProgram.programId,
-    },
-    signers: [collegeAuthority],
-    instructions: [
-      await program.account.college.createInstruction(collegeAccount, 300),
-    ],
-  });
-
-  const collegeFetched = await program.account.college.fetch(
-    collegeAccount.publicKey
-  );
-
-  console.log("collegeFetched.name", collegeFetched.name.toString());
-  console.log("collegeFetched.authority", collegeFetched.authority.toString());
-  dispatch(endTransaction);
-};
-
 export const createUniversity = async (dispatch, getState) => {
   dispatch(startTransaction());
   const state = getState();
@@ -180,7 +106,6 @@ export const createUniversity = async (dispatch, getState) => {
 };
 
 export const fetchUniveristyAccount = async (dispatch, getState) => {
-  dispatch(startTransaction());
   const state = getState();
   const program = state.university.program;
   const provider = state.university.provider;
@@ -197,9 +122,18 @@ export const fetchUniveristyAccount = async (dispatch, getState) => {
       program.programId
     );
 
-  const university = await program.account.university.fetch(universityKey);
-  console.log("university", university);
-  console.log("university.name", university.name);
-  console.log("university.authority", university.authority.toString());
-  dispatch(endTransaction());
+  const universityProfile = await program.account.university.fetch(
+    universityKey
+  );
+  console.log("university", universityProfile);
+  console.log("university.name", universityProfile.name);
+  console.log("university.authority", universityProfile.authority.toString());
+  dispatch(loadUniversityData({ profile: universityProfile }));
+};
+
+export const onUniversityLogin = async (dispatch, getState) => {
+  getBalanceOfWallet(dispatch, getState);
+  initProgramFromIdl(dispatch, getState).then(() => {
+    fetchUniveristyAccount(dispatch, getState);
+  });
 };
