@@ -19,6 +19,10 @@ import {
   requestAirdropAndNotify,
   getBalanceOfWallet,
   initProgramFromIdl,
+  createCourse,
+  createCollege,
+  createUniversity,
+  fetchUniveristyAccount,
 } from "./universityService";
 import { Close, ErrorOutline } from "@material-ui/icons";
 import { PublicKey } from "@solana/web3.js";
@@ -84,6 +88,50 @@ const UniversityPage = () => {
                 <i className="fas fa-sync"></i>
               </span>
               <span>Get University Account</span>
+            </button>
+          </div>
+          <div className="navbar-item">
+            <button
+              className="button is-success is-light is-outlined"
+              onClick={() => dispatch(createCourse)}
+            >
+              <span className="icon">
+                <i className="fas fa-sync"></i>
+              </span>
+              <span>Create Course</span>
+            </button>
+          </div>
+          <div className="navbar-item">
+            <button
+              className="button is-success is-light is-outlined"
+              onClick={() => dispatch(createCollege)}
+            >
+              <span className="icon">
+                <i className="fas fa-sync"></i>
+              </span>
+              <span>Create College</span>
+            </button>
+          </div>
+          <div className="navbar-item">
+            <button
+              className="button is-danger is-light is-outlined"
+              onClick={() => dispatch(createUniversity)}
+            >
+              <span className="icon">
+                <i className="fas fa-sync"></i>
+              </span>
+              <span>Create University</span>
+            </button>
+          </div>
+          <div className="navbar-item">
+            <button
+              className="button is-danger is-light is-outlined"
+              onClick={() => dispatch(fetchUniveristyAccount)}
+            >
+              <span className="icon">
+                <i className="fas fa-sync"></i>
+              </span>
+              <span>Fetch University</span>
             </button>
           </div>
         </nav>
