@@ -3,6 +3,8 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import AuthRedirect from "./app/auth/authUi";
 import University from "./app/university/universityUi";
 import UniversityEditProfile from "./app/university/universityEditProfileUi";
+import CreateCredential from "./app/university/createCredential";
+import ViewCredential from "./app/university/viewCredential";
 import Home from "./app/home/homeUi";
 import "./App.css";
 
@@ -21,6 +23,12 @@ export default function App() {
         </Route>
         <Route path="/edit-university">
           <UniversityEditProfile />
+        </Route>
+        <Route path="/create-credential">
+          <CreateCredential />
+        </Route>
+        <Route path="/view">
+          <ViewCredential />
         </Route>
         <Route
           path="/demo-video"

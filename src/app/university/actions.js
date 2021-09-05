@@ -2,6 +2,7 @@ export const transactionActions = {
   UPDATE_BALANCE: "UPDATE_BALANCE",
   INIT_PROGRAM: "INIT_PROGRAM",
   LOAD_UNIVERSITY_DATA: "LOAD_UNIVERSITY_DATA",
+  STORE_NEW_CREDENTIAL_DATA: "STORE_NEW_CREDENTIAL_DATA",
   TRANSACTION_SETUP: "TRANSACTION_SETUP",
   TRANSACTION_START: "TRANSACTION_START",
   TRANSACTION_END: "TRANSACTION_END",
@@ -9,6 +10,12 @@ export const transactionActions = {
   ADD_TX_INFO: "ADD_TX_INFO",
   TRANSACTION_ERROR: "TRANSACTION_ERROR",
   TRANSACTION_ERROR_RESET: "TRANSACTION_ERROR_RESET",
+};
+export const storeNewCredentialData = (payload) => {
+  return {
+    type: transactionActions.STORE_NEW_CREDENTIAL_DATA,
+    payload: payload,
+  };
 };
 
 export const loadUniversityData = (payload) => {

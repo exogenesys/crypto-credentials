@@ -9,6 +9,7 @@ const initialState = {
   program: null,
   provider: null,
   profile: null,
+  newCredentialData: null,
   transactionInProgress: false,
   transactionComplete: false,
   transaction: null,
@@ -24,6 +25,11 @@ const initialState = {
 
 export default function UniversityReducer(state = initialState, action) {
   switch (action.type) {
+    case transactionActions.STORE_NEW_CREDENTIAL_DATA: {
+      return updateObject(state, {
+        newCredentialData: action.payload.newCredentialData,
+      });
+    }
     case transactionActions.LOAD_UNIVERSITY_DATA: {
       return updateObject(state, {
         profile: action.payload.profile,

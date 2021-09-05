@@ -88,26 +88,15 @@ const UniversityPage = () => {
             </button>
           </div>
           <div className="navbar-item">
-            <button
+            <Link
               className="button is-danger is-light is-outlined"
-              onClick={() => dispatch(createUniversity)}
+              to="/create-credential"
             >
               <span className="icon">
                 <i className="fas fa-sync"></i>
               </span>
-              <span>Create University</span>
-            </button>
-          </div>
-          <div className="navbar-item">
-            <button
-              className="button is-danger is-light is-outlined"
-              onClick={() => dispatch(fetchUniveristyAccount)}
-            >
-              <span className="icon">
-                <i className="fas fa-sync"></i>
-              </span>
-              <span>Fetch University Account</span>
-            </button>
+              <span>Create Credential</span>
+            </Link>
           </div>
         </nav>
       </section>

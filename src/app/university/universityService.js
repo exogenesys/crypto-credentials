@@ -137,3 +137,45 @@ export const onUniversityLogin = async (dispatch, getState) => {
     fetchUniveristyAccount(dispatch, getState);
   });
 };
+
+export const createCredential = async (dispatch, getState) => {
+  const state = getState();
+  const program = state.university.program;
+  const publicKey = state.auth.wallet._publicKey;
+  const { newCredentialData } = state.university;
+
+  const courseNumber = 3;
+  const byteArray = new Uint8Array([0, 0, 0, 0, 0, 0, 0, courseNumber]);
+
+  const [credentialKey, credentialBump] =
+    await anchor.web3.PublicKey.findProgramAddress(
+      [publicKey.toBuffer(), byteArray],
+      program.programId
+    );
+
+  console.log("credentialKey", credentialKey.toString());
+
+  const courseNameInput = "CS101";
+  await program.rpc.createUniversity(
+    newCredentialData.studentName,
+    newCredentialData.studentPublicKey,
+    newCredentialData.courseName,
+    newCredentialData.graduationYear,
+    new anchor.BN(courseNumber),
+    credentialBump,
+    {
+      accounts: {
+        university: universityKey,
+        student: newCredentialData.studentPublicKey,
+        authority: publicKey,
+        systemProgram: anchor.web3.SystemProgram.programId,
+      },
+      signers: [],
+    }
+  );
+
+  const university = await program.account.university.fetch(universityKey);
+  console.log("university.name", university.name);
+  console.log("universityNameInput", universityNameInput);
+  console.log("university.authority", university.authority.toString());
+};
