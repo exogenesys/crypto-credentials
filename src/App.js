@@ -5,6 +5,7 @@ import University from "./app/university/universityUi";
 import UniversityEditProfile from "./app/university/universityEditProfileUi";
 import CreateCredential from "./app/university/createCredential";
 import ViewCredential from "./app/university/viewCredential";
+import InitPage from "./app/init/InitUi";
 import Home from "./app/home/homeUi";
 import "./App.css";
 
@@ -17,6 +18,9 @@ export default function App() {
         </Route>
         <Route path="/login">
           <AuthRedirect />
+        </Route>
+        <Route path="/init">
+          <InitPage />
         </Route>
         <Route path="/university">
           <University />

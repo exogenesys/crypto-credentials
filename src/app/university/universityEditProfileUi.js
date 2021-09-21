@@ -10,7 +10,7 @@ import {
 import {
   doTransfer,
   requestAirdropAndNotify,
-  getBalanceOfWallet,
+  fetchAndUpdateBalanceOfWallet,
   initProgramFromIdl,
   createUniversity,
   fetchUniveristyAccount,

@@ -15,13 +15,13 @@ import {
   createUniversity,
   fetchUniveristyAccount,
   onUniversityLogin,
-} from "./universityService";
+} from "./initService";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useHistory } from "react-router-dom";
 import { useMemo } from "react";
 
-const UniversityPage = () => {
+const InitPage = () => {
   const isConnected = useSelector((store) => store.auth.is_connected);
   const { balance, numberOfCourses, numberOfStudents, numberOfCredentials } =
     useSelector((store) => store.university);
@@ -134,4 +134,4 @@ const UniversityPage = () => {
   );
 };
 
-export default UniversityPage;
+export default InitPage;
