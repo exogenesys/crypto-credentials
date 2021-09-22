@@ -26,10 +26,6 @@ const UniversityPage = () => {
   const { balance, numberOfCourses, numberOfStudents, numberOfCredentials } =
     useSelector((store) => store.university);
 
-  if (!isConnected) {
-    let history = useHistory();
-    history.push("/login");
-  }
   const publicKey = useSelector((store) => store.auth.wallet._publicKey);
   const dispatch = useDispatch();
 

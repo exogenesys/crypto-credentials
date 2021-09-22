@@ -4,6 +4,7 @@ import { startConnection } from "./authService";
 import { TransactionPage } from "../transaction/transactionUi";
 import { connectionSetup } from "./actions";
 import { useHistory } from "react-router-dom";
+import Routes from "../routes";
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -40,7 +41,7 @@ const wallet_providers = [
     icon: "",
   },
 ];
-export default function AuthRedirect() {
+export default function AuthPage() {
   let dispatch = useStore().dispatch;
 
   const [open, setOpen] = React.useState(false);
@@ -62,7 +63,7 @@ export default function AuthRedirect() {
   let isConnected = useSelector((state) => state.auth.is_connected);
   if (isConnected) {
     let history = useHistory();
-    history.push("/university");
+    history.push(Routes.init.path);
   }
   return (
     <div>

@@ -23,7 +23,6 @@ import { requestAirdrop, getBalance } from "../solana/utils";
 import * as anchor from "@project-serum/anchor";
 import { Provider } from "@project-serum/anchor";
 import * as web3 from "@solana/web3.js";
-import idl from "../idl/CryptoCredentials.idl.json";
 import { UNIVERSITY_ACCOUNT_PDA_SEED } from "../constants";
 /*ANCHOR*/
 
@@ -51,19 +50,6 @@ export const fetchAndUpdateBalanceOfWallet = async (dispatch, getState) => {
     wallet._publicKey
   );
   dispatch(updateBalance({ balance }));
-};
-
-export const initProgramFromIdl = async (dispatch, getState) => {
-  const state = getState();
-  const { wallet } = state.auth;
-  const connection = new Connection(config.localnet.clursterUrl);
-  const provider = new anchor.Provider(connection, wallet, {
-    preflightCommitment: "recent",
-    commitment: "recent",
-  });
-  const programId = new anchor.web3.PublicKey(config.localnet.programId);
-  const program = new anchor.Program(idl, programId, provider);
-  dispatch(initProgram({ program, provider }));
 };
 
 export const createUniversity = async (dispatch, getState) => {
@@ -133,9 +119,6 @@ export const fetchUniveristyAccount = async (dispatch, getState) => {
 
 export const onUniversityLogin = async (dispatch, getState) => {
   fetchAndUpdateBalanceOfWallet(dispatch, getState);
-  initProgramFromIdl(dispatch, getState).then(() => {
-    fetchUniveristyAccount(dispatch, getState);
-  });
 };
 
 export const createCredential = async (dispatch, getState) => {

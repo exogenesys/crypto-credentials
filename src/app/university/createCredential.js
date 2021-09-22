@@ -25,11 +25,6 @@ import { useMemo } from "react";
 const CreateCredential = () => {
   const isConnected = useSelector((store) => store.auth.is_connected);
 
-  if (!isConnected) {
-    let history = useHistory();
-    history.push("/login");
-  }
-
   const publicKey = useSelector((store) => store.auth.wallet._publicKey);
   const profile = useSelector((store) => store.university.profile);
   console.log(profile);

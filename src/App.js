@@ -1,43 +1,64 @@
 import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
-import AuthRedirect from "./app/auth/authUi";
+import PropTypes from "prop-types";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import { useDispatch, useSelector, useStore } from "react-redux";
+import Routes from "./app/routes";
+import LoginPage from "./app/auth/authUi";
 import University from "./app/university/universityUi";
-import UniversityEditProfile from "./app/university/universityEditProfileUi";
-import CreateCredential from "./app/university/createCredential";
-import ViewCredential from "./app/university/viewCredential";
+import EditUniversityPage from "./app/university/universityEditProfileUi";
+import EditCredentialPage from "./app/university/createCredential";
+import ViewUniversityPage from "./app/university/viewCredential";
 import InitPage from "./app/init/InitUi";
 import Home from "./app/home/homeUi";
 import "./App.css";
+import EditUniversityProfile from "./app/university/universityEditProfileUi";
 
 export default function App() {
+  const isConnected = useSelector((state) => state.auth.is_connected);
+
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/">
+        <Route exact path={Routes.home.path}>
           <Home />
         </Route>
-        <Route path="/login">
-          <AuthRedirect />
+        <Route path={Routes.login.path}>
+          <LoginPage />
         </Route>
-        <Route path="/init">
-          <InitPage />
+        <Route path={Routes.viewUniversity.path}>
+          <ViewUniversityPage />
         </Route>
-        <Route path="/university">
-          <University />
+        <Route path={Routes.viewCredential.path}>
+          <ViewUniversityPage />
         </Route>
-        <Route path="/edit-university">
-          <UniversityEditProfile />
+        <Route path={Routes.init.path}>
+          {Routes.init.isProtected && isConnected ? (
+            <InitPage />
+          ) : (
+            <Redirect to="/login" />
+          )}
         </Route>
-        <Route path="/create-credential">
-          <CreateCredential />
+        <Route path={Routes.dashboard.path}>
+          {Routes.dashboard.isProtected && isConnected ? (
+            <University />
+          ) : (
+            <Redirect to="/login" />
+          )}
         </Route>
-        <Route path="/view">
-          <ViewCredential />
+        <Route path={Routes.editUniversity.path}>
+          {Routes.editUniversity.isProtected && isConnected ? (
+            <EditUniversityPage />
+          ) : (
+            <Redirect to="/login" />
+          )}
         </Route>
-        <Route
-          path="/demo-video"
-          render={() => (window.location = "https://www.google.com")}
-        />
+        <Route path={Routes.editCredential.path}>
+          {Routes.editCredential.isProtected && isConnected ? (
+            <EditCredentialPage />
+          ) : (
+            <Redirect to="/login" />
+          )}
+        </Route>
       </Switch>
     </BrowserRouter>
   );

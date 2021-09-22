@@ -13,6 +13,7 @@ import {
   updateBalance,
   initProgram,
   loadUniversityData,
+  setUniversityAccountStatus,
 } from "./actions";
 import BN from "bn.js";
 import { toast } from "bulma-toast";
@@ -23,35 +24,9 @@ import { requestAirdrop, getBalance } from "../solana/utils";
 import * as anchor from "@project-serum/anchor";
 import { Provider } from "@project-serum/anchor";
 import * as web3 from "@solana/web3.js";
-import idl from "../idl/CryptoCredentials.idl.json";
+import idl from "../../idl/crypto_credentials_program.idl.json";
 import { UNIVERSITY_ACCOUNT_PDA_SEED } from "../constants";
 /*ANCHOR*/
-
-export const requestAirdropAndNotify = async (dispatch, getState) => {
-  const state = getState();
-  const { wallet } = state.auth;
-  const tx = await requestAirdrop(
-    config.localnet.clursterUrl,
-    wallet._publicKey,
-    1
-  );
-  toast({
-    message: tx.value.err == null ? "Airdrop Successful!" : "Airdrop failed",
-    type: "is-info",
-    duration: 2000,
-    position: "bottom-left",
-  });
-};
-
-export const fetchAndUpdateBalanceOfWallet = async (dispatch, getState) => {
-  const state = getState();
-  const { wallet } = state.auth;
-  const balance = await getBalance(
-    config.localnet.clursterUrl,
-    wallet._publicKey
-  );
-  dispatch(updateBalance({ balance }));
-};
 
 export const initProgramFromIdl = async (dispatch, getState) => {
   const state = getState();
@@ -122,20 +97,27 @@ export const fetchUniveristyAccount = async (dispatch, getState) => {
       program.programId
     );
 
-  const universityProfile = await program.account.university.fetch(
-    universityKey
-  );
-  console.log("university", universityProfile);
-  console.log("university.name", universityProfile.name);
-  console.log("university.authority", universityProfile.authority.toString());
-  dispatch(loadUniversityData({ profile: universityProfile }));
+  try {
+    const universityProfile = await program.account.university.fetch(
+      universityKey
+    );
+    dispatch(setUniversityAccountStatus({ accountStatus: true }));
+    console.log("university", universityProfile);
+    console.log("university.name", universityProfile.name);
+    console.log("university.authority", universityProfile.authority.toString());
+    dispatch(loadUniversityData({ profile: universityProfile }));
+  } catch (error) {
+    if (error == `Account does not exist ${universityKey.toString()}`) {
+      dispatch(setUniversityAccountStatus({ status: false }));
+    } else {
+      console.log(error);
+    }
+  }
 };
 
-export const onUniversityLogin = async (dispatch, getState) => {
-  fetchAndUpdateBalanceOfWallet(dispatch, getState);
-  initProgramFromIdl(dispatch, getState).then(() => {
-    fetchUniveristyAccount(dispatch, getState);
-  });
+export const initializeApp = async (dispatch, getState) => {
+  initProgramFromIdl(dispatch, getState);
+  fetchUniveristyAccount(dispatch, getState);
 };
 
 export const createCredential = async (dispatch, getState) => {
