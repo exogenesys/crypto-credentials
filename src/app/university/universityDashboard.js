@@ -21,7 +21,7 @@ import { useHistory } from "react-router-dom";
 import { useMemo } from "react";
 import Routes from "../routes";
 
-const UniversityPage = () => {
+const UniversityDashboard = () => {
   const isConnected = useSelector((store) => store.auth.is_connected);
   const {
     universityAccountStatus,
@@ -158,4 +158,4 @@ const UniversityPage = () => {
   );
 };
 
-export default UniversityPage;
+export default UniversityDashboard;

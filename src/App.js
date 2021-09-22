@@ -2,16 +2,23 @@ import React from "react";
 import PropTypes from "prop-types";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { useDispatch, useSelector, useStore } from "react-redux";
-import Routes from "./app/routes";
-import LoginPage from "./app/auth/authUi";
-import University from "./app/university/universityUi";
-import EditUniversityPage from "./app/university/universityEditProfileUi";
-import EditCredentialPage from "./app/university/createCredential";
-import ViewUniversityPage from "./app/university/viewCredential";
-import InitPage from "./app/init/InitUi";
-import Home from "./app/home/homeUi";
 import "./App.css";
-import EditUniversityProfile from "./app/university/universityEditProfileUi";
+import Routes from "./app/routes";
+
+import Home from "./app/home/homePage";
+import LoginPage from "./app/auth/authPage";
+
+import ViewUniversityPage from "./app/university/viewUniversity";
+import ViewCredentialPage from "./app/university/viewCredential";
+
+import InitPage from "./app/init/InitPage";
+import UniversityDashboard from "./app/university/universityDashboard";
+
+import PublishUniversityPage from "./app/university/publishUniversity";
+import EditUniversityPage from "./app/university/editUniversity";
+
+import PublishCredentialPage from "./app/university/publishCredential";
+import EditCredentialPage from "./app/university/editCredential";
 
 export default function App() {
   const isConnected = useSelector((state) => state.auth.is_connected);
@@ -29,7 +36,7 @@ export default function App() {
           <ViewUniversityPage />
         </Route>
         <Route path={Routes.viewCredential.path}>
-          <ViewUniversityPage />
+          <ViewCredentialPage />
         </Route>
         <Route path={Routes.init.path}>
           {Routes.init.isProtected && isConnected ? (
@@ -40,7 +47,7 @@ export default function App() {
         </Route>
         <Route path={Routes.dashboard.path}>
           {Routes.dashboard.isProtected && isConnected ? (
-            <University />
+            <UniversityDashboard />
           ) : (
             <Redirect to={Routes.login.path} />
           )}
@@ -55,6 +62,20 @@ export default function App() {
         <Route path={Routes.editCredential.path}>
           {Routes.editCredential.isProtected && isConnected ? (
             <EditCredentialPage />
+          ) : (
+            <Redirect to={Routes.login.path} />
+          )}
+        </Route>
+        <Route path={Routes.publishCredential.path}>
+          {Routes.publishCredential.isProtected && isConnected ? (
+            <PublishCredentialPage />
+          ) : (
+            <Redirect to={Routes.login.path} />
+          )}
+        </Route>
+        <Route path={Routes.publishUniversity.path}>
+          {Routes.publishUniversity.isProtected && isConnected ? (
+            <PublishUniversityPage />
           ) : (
             <Redirect to={Routes.login.path} />
           )}
