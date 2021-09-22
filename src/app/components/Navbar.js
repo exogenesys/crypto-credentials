@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import LoginButton from "./LoginButton";
+import Routes from "../routes";
 
 export default function Navbar() {
   function toggleBurgerMenu() {
@@ -9,7 +10,7 @@ export default function Navbar() {
   return (
     <nav className="navbar is-transparent">
       <div className="navbar-brand">
-        <Link class="navbar-item" to="/">
+        <Link class="navbar-item" to={Routes.home.path}>
           <span className="has-text-weight-bold has-text-black">
             🎓 CryptoCredentials
           </span>

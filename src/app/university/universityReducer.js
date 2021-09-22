@@ -2,6 +2,7 @@ import { transactionActions } from "./actions";
 import { updateObject } from "../util";
 
 const initialState = {
+  universityAccountStatus: false,
   balance: 0,
   numberOfCourses: 0,
   numberOfStudents: 0,
@@ -25,6 +26,11 @@ const initialState = {
 
 export default function UniversityReducer(state = initialState, action) {
   switch (action.type) {
+    case transactionActions.SET_UNIVERSITY_ACCOUNT_STATUS: {
+      return updateObject(state, {
+        newCredentialData: action.payload.universityAccountStatus,
+      });
+    }
     case transactionActions.STORE_NEW_CREDENTIAL_DATA: {
       return updateObject(state, {
         newCredentialData: action.payload.newCredentialData,

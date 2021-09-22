@@ -11,7 +11,6 @@ import {
   doTransfer,
   requestAirdropAndNotify,
   fetchAndUpdateBalanceOfWallet,
-  initProgramFromIdl,
   createUniversity,
   fetchUniveristyAccount,
   onUniversityLogin,
@@ -20,11 +19,17 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useHistory } from "react-router-dom";
 import { useMemo } from "react";
+import Routes from "../routes";
 
 const UniversityPage = () => {
   const isConnected = useSelector((store) => store.auth.is_connected);
-  const { balance, numberOfCourses, numberOfStudents, numberOfCredentials } =
-    useSelector((store) => store.university);
+  const {
+    universityAccountStatus,
+    balance,
+    numberOfCourses,
+    numberOfStudents,
+    numberOfCredentials,
+  } = useSelector((store) => store.university);
 
   const publicKey = useSelector((store) => store.auth.wallet._publicKey);
   const dispatch = useDispatch();
@@ -39,13 +44,36 @@ const UniversityPage = () => {
       <section className="hero is-danger is-bold">
         <div className="hero-body">
           <p className="title">Dashboard</p>
-          <p className="subtitle">{publicKey.toString()}</p>
-          <Link className="button is-rounded" to="/edit-university">
-            <span className="icon">
-              <i className="fas fa-edit"></i>
-            </span>
-            <span>Edit University Profile</span>
-          </Link>
+          <p className="subtitle">
+            {publicKey.toString()}
+            <p>
+              <span
+                className={`mt-2 tag ${
+                  universityAccountStatus ? "is-success" : "is-dark"
+                }`}
+              >
+                {universityAccountStatus ? "Published" : "Not Published"}
+              </span>
+            </p>
+          </p>
+          {universityAccountStatus ? (
+            <Link className="button is-rounded" to={Routes.editUniversity.path}>
+              <span className="icon">
+                <i className="fas fa-edit"></i>
+              </span>
+              <span>Edit University Profile</span>
+            </Link>
+          ) : (
+            <Link
+              className="button is-rounded"
+              to={Routes.publishUniversity.path}
+            >
+              <span className="icon">
+                <i className="fas fa-cloud-upload-alt"></i>
+              </span>
+              <span>Publish University Profile</span>
+            </Link>
+          )}
         </div>
       </section>
       <section className="py-1">
@@ -86,7 +114,7 @@ const UniversityPage = () => {
           <div className="navbar-item">
             <Link
               className="button is-danger is-light is-outlined"
-              to="/create-credential"
+              to={Routes.publishCredential.path}
             >
               <span className="icon">
                 <i className="fas fa-sync"></i>

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector, useStore } from "react-redux";
+import Routes from "../routes";
 import {
   resetError,
   resetTransaction,
@@ -54,7 +55,10 @@ const ViewCredential = () => {
               <button className="button is-info">Save</button>
             </div>
             <div className="control">
-              <Link className="button is-info is-light" to="/university">
+              <Link
+                className="button is-info is-light"
+                to={Routes.dashboard.path}
+              >
                 Cancel
               </Link>
             </div>

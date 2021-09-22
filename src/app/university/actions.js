@@ -1,4 +1,5 @@
 export const transactionActions = {
+  SET_UNIVERSITY_ACCOUNT_STATUS: "SET_UNIVERSITY_ACCOUNT_STATUS",
   UPDATE_BALANCE: "UPDATE_BALANCE",
   INIT_PROGRAM: "INIT_PROGRAM",
   LOAD_UNIVERSITY_DATA: "LOAD_UNIVERSITY_DATA",
@@ -11,6 +12,14 @@ export const transactionActions = {
   TRANSACTION_ERROR: "TRANSACTION_ERROR",
   TRANSACTION_ERROR_RESET: "TRANSACTION_ERROR_RESET",
 };
+
+export const setUniversityAccountStatus = (payload) => {
+  return {
+    type: transactionActions.SET_UNIVERSITY_ACCOUNT_STATUS,
+    payload: payload,
+  };
+};
+
 export const storeNewCredentialData = (payload) => {
   return {
     type: transactionActions.STORE_NEW_CREDENTIAL_DATA,

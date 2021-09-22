@@ -35,28 +35,28 @@ export default function App() {
           {Routes.init.isProtected && isConnected ? (
             <InitPage />
           ) : (
-            <Redirect to="/login" />
+            <Redirect to={Routes.login.path} />
           )}
         </Route>
         <Route path={Routes.dashboard.path}>
           {Routes.dashboard.isProtected && isConnected ? (
             <University />
           ) : (
-            <Redirect to="/login" />
+            <Redirect to={Routes.login.path} />
           )}
         </Route>
         <Route path={Routes.editUniversity.path}>
           {Routes.editUniversity.isProtected && isConnected ? (
             <EditUniversityPage />
           ) : (
-            <Redirect to="/login" />
+            <Redirect to={Routes.login.path} />
           )}
         </Route>
         <Route path={Routes.editCredential.path}>
           {Routes.editCredential.isProtected && isConnected ? (
             <EditCredentialPage />
           ) : (
-            <Redirect to="/login" />
+            <Redirect to={Routes.login.path} />
           )}
         </Route>
       </Switch>
