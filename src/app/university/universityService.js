@@ -1,29 +1,10 @@
-import {
-  Connection,
-  PublicKey,
-  Transaction,
-  TransactionInstruction,
-} from "@solana/web3.js";
-
-import BN from "bn.js";
 import { toast } from "bulma-toast";
 
 /* ANCHOR */
 import * as anchor from "@project-serum/anchor";
-import { Provider } from "@project-serum/anchor";
-import * as web3 from "@solana/web3.js";
 import { requestAirdrop, getBalance } from "../solana/utils";
 import config from "../config";
-import {
-  addTxInfo,
-  endTransaction,
-  setError,
-  startTransaction,
-  updateBalance,
-  initProgram,
-  loadUniversityData,
-} from "./actions";
-import { UNIVERSITY_ACCOUNT_PDA_SEED } from "../constants";
+import { updateBalance, loadUniversityData } from "./actions";
 /* ANCHOR */
 
 export const requestAirdropAndNotify = async (dispatch, getState) => {
@@ -56,7 +37,7 @@ export const createUniversity = async (dispatch, getState) => {
   try {
     // dispatch(startTransaction());
     const state = getState();
-    const {program} = state.university;
+    const { program } = state.university;
     const publicKey = state.auth.wallet._publicKey;
     console.log(state);
     if (
@@ -104,8 +85,8 @@ export const createUniversity = async (dispatch, getState) => {
 
 export const fetchUniveristyAccount = async (dispatch, getState) => {
   const state = getState();
-  const {program} = state.university;
-  const {provider} = state.university;
+  const { program } = state.university;
+  const { provider } = state.university;
   const publicKey = state.auth.wallet._publicKey;
 
   console.log(program, provider, publicKey);
@@ -135,7 +116,7 @@ export const onUniversityLogin = async (dispatch, getState) => {
 
 export const createCredential = async (dispatch, getState) => {
   const state = getState();
-  const {program} = state.university;
+  const { program } = state.university;
   const publicKey = state.auth.wallet._publicKey;
   const { newCredentialData } = state.university;
 

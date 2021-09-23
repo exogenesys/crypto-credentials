@@ -1,30 +1,15 @@
-import React, { useState , useMemo } from "react";
-import { Link , useHistory } from "react-router-dom";
-import { useDispatch, useSelector, useStore } from "react-redux";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import Routes from "../routes";
-import {
-  resetError,
-  resetTransaction,
-  setError,
-  setupTransaction,
-  updateUniversityFormData,
-} from "./actions";
-import {
-  doTransfer,
-  requestAirdropAndNotify,
-  fetchAndUpdateBalanceOfWallet,
-  initProgramFromIdl,
-  createUniversity,
-  fetchUniveristyAccount,
-} from "./universityService";
+import { updateUniversityFormData } from "./actions";
+import { createUniversity } from "./universityService";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import UniversityBanner from "../components/UniversityBanner";
 import { isValidString } from "../util";
 
 const EditUniversityProfile = () => {
-  const isConnected = useSelector((store) => store.auth.is_connected);
-
   const publicKey = useSelector((store) => store.auth.wallet._publicKey);
   const profile = useSelector((store) => store.university.profile);
   console.log(profile);

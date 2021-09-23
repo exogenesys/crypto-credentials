@@ -1,16 +1,5 @@
 import React from "react";
-import {
-  Button,
-  FormControl,
-  IconButton,
-  Input,
-  InputLabel,
-  Typography,
-} from "@material-ui/core";
-import { useDispatch, useSelector, useStore } from "react-redux";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import FormGroup from "@material-ui/core/FormGroup";
+import { useDispatch, useSelector } from "react-redux";
 import { Close, ErrorOutline } from "@material-ui/icons";
 import { PublicKey } from "@solana/web3.js";
 import { doTransfer } from "./transactionService";

@@ -1,30 +1,14 @@
-import React, { useState , useMemo } from "react";
-import { Link , useHistory } from "react-router-dom";
-import { useDispatch, useSelector, useStore } from "react-redux";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import Routes from "../routes";
-import {
-  resetError,
-  resetTransaction,
-  setError,
-  setupTransaction,
-  storeNewCredentialData,
-} from "./actions";
-import {
-  doTransfer,
-  requestAirdropAndNotify,
-  fetchAndUpdateBalanceOfWallet,
-  initProgramFromIdl,
-  createUniversity,
-  fetchUniveristyAccount,
-  createCredential,
-} from "./universityService";
+import { storeNewCredentialData } from "./actions";
+import { createCredential } from "./universityService";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import UniversityBanner from "../components/UniversityBanner";
 
 const CreateCredential = () => {
-  const isConnected = useSelector((store) => store.auth.is_connected);
-
   const publicKey = useSelector((store) => store.auth.wallet._publicKey);
   const profile = useSelector((store) => store.university.profile);
   console.log(profile);
@@ -111,6 +95,7 @@ const CreateCredential = () => {
           <div className="field is-grouped">
             <div className="control">
               <button
+                type="button"
                 className="button is-rounded is-warning"
                 onClick={onClickCreateCredential}
               >

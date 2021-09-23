@@ -1,18 +1,9 @@
 import React, { useMemo } from "react";
-import { Link , useHistory } from "react-router-dom";
-import { useDispatch, useSelector, useStore } from "react-redux";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  resetError,
-  resetTransaction,
-  setError,
-  setupTransaction,
-} from "./actions";
-import {
-  doTransfer,
   requestAirdropAndNotify,
   fetchAndUpdateBalanceOfWallet,
-  createUniversity,
-  fetchUniveristyAccount,
   onUniversityLogin,
 } from "./universityService";
 import Navbar from "../components/Navbar";
@@ -20,7 +11,6 @@ import Footer from "../components/Footer";
 import Routes from "../routes";
 
 const UniversityDashboard = () => {
-  const isConnected = useSelector((store) => store.auth.is_connected);
   const {
     universityAccountStatus,
     balance,

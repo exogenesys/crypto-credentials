@@ -1,21 +1,8 @@
-import React, { useMemo } from "react";
-import { Link , useHistory } from "react-router-dom";
-import { useDispatch, useSelector, useStore } from "react-redux";
+import React from "react";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Routes from "../routes";
-import {
-  resetError,
-  resetTransaction,
-  setError,
-  setupTransaction,
-} from "./actions";
-import {
-  doTransfer,
-  requestAirdropAndNotify,
-  fetchAndUpdateBalanceOfWallet,
-  initProgramFromIdl,
-  createUniversity,
-  fetchUniveristyAccount,
-} from "./universityService";
+
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
