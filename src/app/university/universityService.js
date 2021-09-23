@@ -53,42 +53,53 @@ export const fetchAndUpdateBalanceOfWallet = async (dispatch, getState) => {
 };
 
 export const createUniversity = async (dispatch, getState) => {
-  dispatch(startTransaction());
-  const state = getState();
-  const program = state.university.program;
-  const publicKey = state.auth.wallet._publicKey;
+  try {
+    // dispatch(startTransaction());
+    const state = getState();
+    const program = state.university.program;
+    const publicKey = state.auth.wallet._publicKey;
+    console.log(state);
+    if (
+      !state.university.universityFormData ||
+      !state.university.universityFormData.name
+    ) {
+      throw new Error("invalid form data");
+    }
+    const { name } = state.university.universityFormData;
 
-  const courseNumber = 3;
-  const byteArray = new Uint8Array([0, 0, 0, 0, 0, 0, 0, courseNumber]);
+    const courseNumber = 3;
+    const byteArray = new Uint8Array([0, 0, 0, 0, 0, 0, 0, courseNumber]);
 
-  const [universityKey, universityBump] =
-    await anchor.web3.PublicKey.findProgramAddress(
-      [publicKey.toBuffer(), byteArray],
-      program.programId
+    const [universityKey, universityBump] =
+      await anchor.web3.PublicKey.findProgramAddress(
+        [publicKey.toBuffer(), byteArray],
+        program.programId
+      );
+
+    console.log("universityKey", universityKey.toString());
+
+    await program.rpc.createUniversity(
+      name,
+      new anchor.BN(courseNumber),
+      universityBump,
+      {
+        accounts: {
+          university: universityKey,
+          authority: publicKey,
+          systemProgram: anchor.web3.SystemProgram.programId,
+        },
+        signers: [],
+      }
     );
 
-  console.log("universityKey", universityKey.toString());
-
-  const courseNameInput = "CS101";
-  await program.rpc.createUniversity(
-    courseNameInput,
-    new anchor.BN(courseNumber),
-    universityBump,
-    {
-      accounts: {
-        university: universityKey,
-        authority: publicKey,
-        systemProgram: anchor.web3.SystemProgram.programId,
-      },
-      signers: [],
-    }
-  );
-
-  const university = await program.account.university.fetch(universityKey);
-  console.log("university.name", university.name);
-  console.log("universityNameInput", universityNameInput);
-  console.log("university.authority", university.authority.toString());
-  dispatch(endTransaction());
+    // const university = await program.account.university.fetch(universityKey);
+    // console.log("university.name", university.name);
+    // console.log("universityNameInput", universityNameInput);
+    // console.log("university.authority", university.authority.toString());
+    // dispatch(endTransaction());
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const fetchUniveristyAccount = async (dispatch, getState) => {
@@ -118,6 +129,7 @@ export const fetchUniveristyAccount = async (dispatch, getState) => {
 };
 
 export const onUniversityLogin = async (dispatch, getState) => {
+  fetchUniveristyAccount(dispatch, getState);
   fetchAndUpdateBalanceOfWallet(dispatch, getState);
 };
 

@@ -52,7 +52,7 @@ const EditUniversityProfile = () => {
           </div>
           <div className="field is-grouped">
             <div className="control">
-              <button className="button is-info">Save</button>
+              <button className="button is-rounded is-info">Save</button>
             </div>
             <div className="control">
               <Link

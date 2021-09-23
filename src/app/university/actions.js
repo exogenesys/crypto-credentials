@@ -1,4 +1,5 @@
 export const transactionActions = {
+  UPDATE_UNIVERSITY_FORM_DATA: "UPDATE_UNIVERSITY_FORM_DATA",
   SET_UNIVERSITY_ACCOUNT_STATUS: "SET_UNIVERSITY_ACCOUNT_STATUS",
   UPDATE_BALANCE: "UPDATE_BALANCE",
   INIT_PROGRAM: "INIT_PROGRAM",
@@ -11,6 +12,13 @@ export const transactionActions = {
   ADD_TX_INFO: "ADD_TX_INFO",
   TRANSACTION_ERROR: "TRANSACTION_ERROR",
   TRANSACTION_ERROR_RESET: "TRANSACTION_ERROR_RESET",
+};
+
+export const updateUniversityFormData = (payload) => {
+  return {
+    type: transactionActions.UPDATE_UNIVERSITY_FORM_DATA,
+    payload: payload,
+  };
 };
 
 export const setUniversityAccountStatus = (payload) => {

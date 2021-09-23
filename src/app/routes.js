@@ -6,7 +6,7 @@ const Routes = {
   init: { path: "/init", isProtected: true },
   dashboard: { path: "/dashboard", isProtected: true },
   publishUniversity: { path: "/publish-university", isProtected: true },
-  publishCredential: { path: "/publish-university", isProtected: true },
+  publishCredential: { path: "/publish-credential", isProtected: true },
   editUniversity: { path: "/edit-university", isProtected: true },
   editCredential: { path: "/edit-credential", isProtected: true },
 };

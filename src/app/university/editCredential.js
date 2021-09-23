@@ -22,6 +22,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useHistory } from "react-router-dom";
 import { useMemo } from "react";
+import UniversityBanner from "../components/UniversityBanner";
 
 const CreateCredential = () => {
   const isConnected = useSelector((store) => store.auth.is_connected);
@@ -55,12 +56,7 @@ const CreateCredential = () => {
   return (
     <div>
       <Navbar />
-      <section className="hero is-warning is-bold">
-        <div className="hero-body">
-          <p className="title">Create New Credential</p>
-          <p className="subtitle">{publicKey.toString()}</p>
-        </div>
-      </section>
+      <UniversityBanner publicKey={publicKey} title={"Edit Credential"} />
       <section>
         <div className="container mt-6">
           <div className="field">
@@ -117,7 +113,7 @@ const CreateCredential = () => {
           <div className="field is-grouped">
             <div className="control">
               <button
-                className="button is-warning"
+                className="button is-rounded is-warning"
                 onClick={onClickCreateCredential}
               >
                 Create Credential
@@ -125,7 +121,7 @@ const CreateCredential = () => {
             </div>
             <div className="control">
               <Link
-                className="button is-warning is-light"
+                className="button is-rounded is-warning is-light"
                 to={Routes.dashboard.path}
               >
                 Cancel

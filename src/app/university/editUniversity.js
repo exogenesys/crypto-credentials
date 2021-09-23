@@ -18,6 +18,7 @@ import {
 } from "./universityService";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import UniversityBanner from "../components/UniversityBanner";
 import { useHistory } from "react-router-dom";
 import { useMemo } from "react";
 
@@ -31,6 +32,10 @@ const EditUniversityProfile = () => {
   return (
     <div>
       <Navbar />
+      <UniversityBanner
+        title={"Publish University"}
+        publicKeyString={publicKey.toString()}
+      />
       <section className="hero is-info is-bold">
         <div className="hero-body">
           <p className="title">Edit University Profile</p>
@@ -52,11 +57,11 @@ const EditUniversityProfile = () => {
           </div>
           <div className="field is-grouped">
             <div className="control">
-              <button className="button is-info">Save</button>
+              <button className="button is-rounded is-info">Save</button>
             </div>
             <div className="control">
               <Link
-                className="button is-info is-light"
+                className="button is-rounded is-info is-light"
                 to={Routes.dashboard.path}
               >
                 Cancel

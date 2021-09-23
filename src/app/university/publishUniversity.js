@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector, useStore } from "react-redux";
 import Routes from "../routes";
@@ -7,6 +7,7 @@ import {
   resetTransaction,
   setError,
   setupTransaction,
+  updateUniversityFormData,
 } from "./actions";
 import {
   doTransfer,
@@ -18,6 +19,8 @@ import {
 } from "./universityService";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import UniversityBanner from "../components/UniversityBanner";
+import { isValidString } from "../util";
 import { useHistory } from "react-router-dom";
 import { useMemo } from "react";
 
@@ -28,15 +31,39 @@ const EditUniversityProfile = () => {
   const profile = useSelector((store) => store.university.profile);
   console.log(profile);
 
+  const dispatch = useDispatch();
+  const [formState, setFormState] = useState("default");
+  const [universityName, setUniversityName] = useState("");
+
+  const handlePublishButton = () => {
+    if (formState == "default") {
+      if (isValidString(universityName)) {
+        dispatch(updateUniversityFormData({ name: universityName }));
+        setFormState("loading");
+        publishUniversity();
+      } else {
+        setFormState("default");
+        alert("invalid form data");
+      }
+    }
+  };
+
+  const publishUniversity = () => {
+    dispatch(createUniversity);
+
+    // .then(() => {
+    //   alert("published");
+    //   setFormState("default");
+    // });
+  };
+
   return (
     <div>
       <Navbar />
-      <section className="hero is-info is-bold">
-        <div className="hero-body">
-          <p className="title">Edit University Profile</p>
-          <p className="subtitle">{publicKey.toString()}</p>
-        </div>
-      </section>
+      <UniversityBanner
+        title={"Publish University Profile"}
+        publicKeyString={publicKey.toString()}
+      />
       <section>
         <div className="container mt-6">
           <div className="field">
@@ -46,17 +73,26 @@ const EditUniversityProfile = () => {
                 className="input"
                 type="text"
                 placeholder="Text input"
-                value={profile.name}
+                onChange={(e) => setUniversityName(e.target.value)}
+                value={universityName}
               />
             </div>
           </div>
           <div className="field is-grouped">
             <div className="control">
-              <button className="button is-info">Save</button>
+              <button
+                className={`button is-warning is-rounded ${
+                  formState == "loading" ? "is-loading" : ""
+                }`}
+                disabled={formState == "loading"}
+                onClick={handlePublishButton}
+              >
+                Publish
+              </button>
             </div>
             <div className="control">
               <Link
-                className="button is-info is-light"
+                className="button is-warning is-light is-rounded"
                 to={Routes.dashboard.path}
               >
                 Cancel
