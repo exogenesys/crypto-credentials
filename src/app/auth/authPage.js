@@ -1,9 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector, useStore } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { startConnection } from "./authService";
 import { TransactionPage } from "../transaction/transactionUi";
 import { connectionSetup } from "./actions";
-import { useHistory } from "react-router-dom";
 import Routes from "../routes";
 
 import Navbar from "../components/Navbar";
@@ -42,7 +42,7 @@ const wallet_providers = [
   },
 ];
 export default function AuthPage() {
-  let dispatch = useStore().dispatch;
+  const {dispatch} = useStore();
 
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState(wallet_providers[1]);
@@ -60,9 +60,9 @@ export default function AuthPage() {
     this.forceUpdate();
   }
 
-  let isConnected = useSelector((state) => state.auth.is_connected);
+  const isConnected = useSelector((state) => state.auth.is_connected);
   if (isConnected) {
-    let history = useHistory();
+    const history = useHistory();
     history.push(Routes.init.path);
   }
   return (
@@ -76,11 +76,11 @@ export default function AuthPage() {
           </h1>
           <p>
             <button
-              className={"button is-medium is-rounded"}
+              className="button is-medium is-rounded"
               onClick={() => setOpen(true)}
             >
               <span className="icon">
-                <i className="fas fa-wallet"></i>
+                <i className="fas fa-wallet" />
               </span>
               <span>Connect Wallet</span>
             </button>
@@ -111,7 +111,7 @@ function WalletProviderModal(props) {
   return (
     <div>
       <div className={`modal ${open ? "is-active" : ""}`}>
-        <div className="modal-background" onClick={() => handleClose()}></div>
+        <div className="modal-background" onClick={() => handleClose()} />
         <div className="modal-card">
           <header className="modal-card-head">
             <p className="modal-card-title">Select Wallet Provider</p>
@@ -119,7 +119,7 @@ function WalletProviderModal(props) {
               className="delete"
               aria-label="close"
               onClick={() => handleClose()}
-            ></button>
+             />
           </header>
           <section className="modal-card-body">
             {wallet_providers.map((provider, url) => (
@@ -132,7 +132,7 @@ function WalletProviderModal(props) {
               </button>
             ))}
           </section>
-          <footer className="modal-card-foot"></footer>
+          <footer className="modal-card-foot" />
         </div>
       </div>
     </div>

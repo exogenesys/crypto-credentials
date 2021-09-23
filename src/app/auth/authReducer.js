@@ -19,8 +19,8 @@ const initialState = {
 export default function AuthReducer(state = initialState, action) {
   switch (action.type) {
     case authActions.CONNECT_SETUP: {
-      let provider = action.payload;
-      let data = {
+      const provider = action.payload;
+      const data = {
         walletProvider: provider.name,
         walletProviderUrl: provider.icon,
         walletProviderHasAdapter: provider.adapter !== null,

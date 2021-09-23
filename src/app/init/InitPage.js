@@ -1,7 +1,7 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import Routes from "../routes";
+import React, { useMemo } from "react";
+import { Link , useHistory } from "react-router-dom";
 import { useDispatch, useSelector, useStore } from "react-redux";
+import Routes from "../routes";
 import {
   resetError,
   resetTransaction,
@@ -11,8 +11,6 @@ import {
 import { initializeApp } from "./initService";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { useHistory } from "react-router-dom";
-import { useMemo } from "react";
 
 const InitPage = () => {
   const dispatch = useDispatch();
@@ -36,7 +34,7 @@ const InitPage = () => {
           <p className="subtitle">
             traversing central finit curve
             <span className="icon ml-2">
-              <i className="fas fa-cog fa-spin"></i>
+              <i className="fas fa-cog fa-spin" />
             </span>
           </p>
         </div>

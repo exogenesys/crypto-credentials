@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useMemo } from "react";
+import { Link , useHistory } from "react-router-dom";
 import { useDispatch, useSelector, useStore } from "react-redux";
 import {
   resetError,
@@ -17,8 +17,6 @@ import {
 } from "./universityService";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { useHistory } from "react-router-dom";
-import { useMemo } from "react";
 import Routes from "../routes";
 
 const UniversityDashboard = () => {
@@ -59,7 +57,7 @@ const UniversityDashboard = () => {
           {universityAccountStatus ? (
             <Link className="button is-rounded" to={Routes.editUniversity.path}>
               <span className="icon">
-                <i className="fas fa-edit"></i>
+                <i className="fas fa-edit" />
               </span>
               <span>Edit University Profile</span>
             </Link>
@@ -69,7 +67,7 @@ const UniversityDashboard = () => {
               to={Routes.publishUniversity.path}
             >
               <span className="icon">
-                <i className="fas fa-cloud-upload-alt"></i>
+                <i className="fas fa-cloud-upload-alt" />
               </span>
               <span>Publish University Profile</span>
             </Link>
@@ -84,7 +82,7 @@ const UniversityDashboard = () => {
               onClick={() => dispatch(requestAirdropAndNotify)}
             >
               <span className="icon">
-                <i className="fas fa-coins"></i>
+                <i className="fas fa-coins" />
               </span>
               <span>Request Airdrop</span>
             </button>
@@ -95,7 +93,7 @@ const UniversityDashboard = () => {
               onClick={() => dispatch(fetchAndUpdateBalanceOfWallet)}
             >
               <span className="icon">
-                <i className="fas fa-sync"></i>
+                <i className="fas fa-sync" />
               </span>
               <span>Refresh Balance</span>
             </button>
@@ -106,7 +104,7 @@ const UniversityDashboard = () => {
               onClick={() => dispatch(initProgramFromIdl)}
             >
               <span className="icon">
-                <i className="fas fa-sync"></i>
+                <i className="fas fa-sync" />
               </span>
               <span>Load Program</span>
             </button>
@@ -117,7 +115,7 @@ const UniversityDashboard = () => {
               to={Routes.publishCredential.path}
             >
               <span className="icon">
-                <i className="fas fa-sync"></i>
+                <i className="fas fa-sync" />
               </span>
               <span>Create Credential</span>
             </Link>
@@ -152,7 +150,7 @@ const UniversityDashboard = () => {
           </div>
         </nav>
       </section>
-      <section></section>
+      <section />
       <Footer />
     </div>
   );

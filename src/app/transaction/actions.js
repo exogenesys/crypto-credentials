@@ -8,51 +8,37 @@ export const transactionActions = {
   TRANSACTION_ERROR_RESET: "TRANSACTION_ERROR_RESET",
 };
 
-export const setupTransaction = (payload) => {
-  return {
+export const setupTransaction = (payload) => ({
     type: transactionActions.TRANSACTION_SETUP,
-    payload: payload,
-  };
-};
+    payload,
+  });
 
-export const startTransaction = (payload) => {
-  return {
+export const startTransaction = (payload) => ({
     type: transactionActions.TRANSACTION_START,
-    payload: payload,
-  };
-};
+    payload,
+  });
 
-export const endTransaction = (payload) => {
-  return {
+export const endTransaction = (payload) => ({
     type: transactionActions.TRANSACTION_END,
-    payload: payload,
-  };
-};
+    payload,
+  });
 
-export const resetTransaction = (payload) => {
-  return {
+export const resetTransaction = (payload) => ({
     type: transactionActions.TRANSACTION_RESET,
-    payload: payload,
-  };
-};
+    payload,
+  });
 
-export const addTxInfo = (payload) => {
-  return {
+export const addTxInfo = (payload) => ({
     type: transactionActions.ADD_TX_INFO,
-    payload: payload,
-  };
-};
+    payload,
+  });
 
-export const setError = (payload) => {
-  return {
+export const setError = (payload) => ({
     type: transactionActions.TRANSACTION_ERROR,
-    payload: payload,
-  };
-};
+    payload,
+  });
 
-export const resetError = (payload) => {
-  return {
+export const resetError = (payload) => ({
     type: transactionActions.TRANSACTION_ERROR_RESET,
-    payload: payload,
-  };
-};
+    payload,
+  });

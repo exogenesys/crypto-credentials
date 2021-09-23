@@ -8,27 +8,27 @@ import {
   Typography,
 } from "@material-ui/core";
 import { useDispatch, useSelector, useStore } from "react-redux";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import FormGroup from "@material-ui/core/FormGroup";
+import { Close, ErrorOutline } from "@material-ui/icons";
+import { PublicKey } from "@solana/web3.js";
+import { doTransfer } from "./transactionService";
 import {
   resetError,
   resetTransaction,
   setError,
   setupTransaction,
 } from "./actions";
-import { doTransfer } from "./transactionService";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import FormGroup from "@material-ui/core/FormGroup";
-import { Close, ErrorOutline } from "@material-ui/icons";
-import { PublicKey } from "@solana/web3.js";
 
 export const TransactionPage = () => {
-  let dispatch = useDispatch();
+  const dispatch = useDispatch();
   const transferClicked = () => {
-    let targetAddress = document.getElementById("token-reciever-input").value;
-    let transferAmount = document.getElementById("token-amount-input").value;
+    const targetAddress = document.getElementById("token-reciever-input").value;
+    const transferAmount = document.getElementById("token-amount-input").value;
     // basic input validation
     try {
-      let k = new PublicKey(targetAddress);
+      const k = new PublicKey(targetAddress);
       if (!targetAddress || !transferAmount) {
         dispatch(setError("Please Fill in all fields"));
         return;
@@ -45,46 +45,46 @@ export const TransactionPage = () => {
 
     dispatch(
       setupTransaction({
-        targetAddress: targetAddress,
-        transferAmount: transferAmount,
+        targetAddress,
+        transferAmount,
       })
     );
     dispatch(doTransfer);
   };
 
   return (
-    <div className={"transfer-container center"}>
-      <div className={"logo-box"}>
+    <div className="transfer-container center">
+      <div className="logo-box">
         <img
-          className={"logo-image"}
-          src={"./assets/img/logo.small.png"}
-          alt={"logo"}
+          className="logo-image"
+          src="./assets/img/logo.small.png"
+          alt="logo"
         />
       </div>
       <h1>Transfer XEN</h1>
-      <form className={"transfer-form"}>
-        <div className={"form-group"}>
+      <form className="transfer-form">
+        <div className="form-group">
           <span>Address</span>
           <input
-            name={"token-rec-addr"}
+            name="token-rec-addr"
             className="form-field"
             placeholder={"Receiver's Address"}
-            id={"token-reciever-input"}
+            id="token-reciever-input"
           />
         </div>
-        <div className={"form-group"}>
+        <div className="form-group">
           <span>Amount</span>
           <input
             name="token-transfer-amount"
             className="form-field"
-            type={"number"}
+            type="number"
             min={0}
-            id={"token-amount-input"}
+            id="token-amount-input"
           />
         </div>
       </form>
 
-      <button id="transfer-btn" onClick={transferClicked} className={"button"}>
+      <button id="transfer-btn" onClick={transferClicked} className="button">
         Transfer
       </button>
       <ErrorPopup />
@@ -95,19 +95,19 @@ export const TransactionPage = () => {
 };
 
 const ErrorPopup = () => {
-  let isError = useSelector((store) => store.transaction.isError);
-  let msg = useSelector((store) => store.transaction.transactionError);
-  let dispatch = useDispatch();
+  const isError = useSelector((store) => store.transaction.isError);
+  const msg = useSelector((store) => store.transaction.transactionError);
+  const dispatch = useDispatch();
   if (!isError) {
     return <div />;
   }
   return (
-    <div className={"error-popup"}>
-      <ErrorOutline fontSize={"large"} />
-      <span className={"error-message"}>{msg.toString()}</span>
+    <div className="error-popup">
+      <ErrorOutline fontSize="large" />
+      <span className="error-message">{msg.toString()}</span>
 
       <Close
-        className={"close-error-popup"}
+        className="close-error-popup"
         style={{ fontSize: 17, fontWeight: 700 }}
         onClick={() => dispatch(resetError())}
       />
@@ -116,25 +116,25 @@ const ErrorPopup = () => {
 };
 
 const LoadingSpinner = () => {
-  let transactionInProgress = useSelector(
+  const transactionInProgress = useSelector(
     (store) => store.transaction.transactionInProgress
   );
-  let transactionComplete = useSelector(
+  const transactionComplete = useSelector(
     (store) => store.transaction.transactionComplete
   );
 
   if (!transactionComplete && transactionInProgress) {
     return (
-      <div className={"loading-spinner"}>
+      <div className="loading-spinner">
         <div className="lds-roller">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
+          <div />
+          <div />
+          <div />
+          <div />
+          <div />
+          <div />
+          <div />
+          <div />
         </div>
       </div>
     );
@@ -145,14 +145,14 @@ const LoadingSpinner = () => {
 
 // Todo: show live status of transaction
 const TransactionResultModal = (props) => {
-  let dispatch = useDispatch();
-  let transactionInProgress = useSelector(
+  const dispatch = useDispatch();
+  const transactionInProgress = useSelector(
     (store) => store.transaction.transactionInProgress
   );
-  let transactionComplete = useSelector(
+  const transactionComplete = useSelector(
     (store) => store.transaction.transactionComplete
   );
-  let transactionSignature = useSelector(
+  const transactionSignature = useSelector(
     (store) => store.transaction.transactionSignature
   );
   if (
@@ -162,13 +162,13 @@ const TransactionResultModal = (props) => {
   ) {
     // set the same class as wallet-provider-modal b/c of same properties
     return (
-      <div className={"wallet-provider-overlay"}>
-        <div className={"transaction-status-modal wallet-provider-modal"}>
-          <span className={"transactionSignature"}>
+      <div className="wallet-provider-overlay">
+        <div className="transaction-status-modal wallet-provider-modal">
+          <span className="transactionSignature">
             Signature: {transactionSignature}
           </span>
           <Close
-            className={"transaction-result-modal-close "}
+            className="transaction-result-modal-close "
             style={{ fontSize: 40 }}
             onClick={() => dispatch(resetTransaction())}
           />

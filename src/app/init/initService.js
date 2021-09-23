@@ -1,11 +1,11 @@
 import { Connection } from "@solana/web3.js";
+import * as anchor from "@project-serum/anchor";
 import { initProgram } from "./actions";
 import config from "../config";
 
-/*ANCHOR*/
-import * as anchor from "@project-serum/anchor";
+/* ANCHOR */
 import idl from "../../idl/crypto_credentials_program.idl.json";
-/*ANCHOR*/
+/* ANCHOR */
 
 export const initProgramFromIdl = async (dispatch, getState) => {
   const state = getState();

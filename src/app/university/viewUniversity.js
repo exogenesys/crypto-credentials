@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useMemo } from "react";
+import { Link , useHistory } from "react-router-dom";
 import { useDispatch, useSelector, useStore } from "react-redux";
 import Routes from "../routes";
 import {
@@ -18,8 +18,6 @@ import {
 } from "./universityService";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { useHistory } from "react-router-dom";
-import { useMemo } from "react";
 
 const EditUniversityProfile = () => {
   const isConnected = useSelector((store) => store.auth.is_connected);

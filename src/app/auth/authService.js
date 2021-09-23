@@ -1,4 +1,9 @@
 import { clusterApiUrl, Connection } from "@solana/web3.js";
+import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
+import { getPhantomWallet } from "@solana/wallet-adapter-wallets";
+import { PhantomWalletAdapter } from "@solana/wallet-adapter-phantom";
+import { SolletWalletAdapter } from "@solana/wallet-adapter-sollet";
+import { MathWalletWalletAdapter } from "@solana/wallet-adapter-mathwallet";
 import {
   connectionError,
   connectionStart,
@@ -6,19 +11,14 @@ import {
   disconnectStart,
   disconnectSuccess,
 } from "./actions";
-import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
-import { getPhantomWallet } from "@solana/wallet-adapter-wallets";
-import { PhantomWalletAdapter } from "@solana/wallet-adapter-phantom";
-import { SolletWalletAdapter } from "@solana/wallet-adapter-sollet";
-import { MathWalletWalletAdapter } from "@solana/wallet-adapter-mathwallet";
 
 export async function startConnection(dispatch, getState) {
   dispatch(connectionStart());
-  let state = getState();
-  let network = clusterApiUrl("devnet");
-  let connection = new Connection(network);
+  const state = getState();
+  const network = clusterApiUrl("devnet");
+  const connection = new Connection(network);
   let wallet;
-  let { walletProvider } = state.auth;
+  const { walletProvider } = state.auth;
   switch (walletProvider) {
     case "Sollet":
       try {
@@ -56,9 +56,9 @@ export async function startConnection(dispatch, getState) {
     console.log("connected");
     dispatch(
       connectionSuccess({
-        publicKey: publicKey,
-        wallet: wallet,
-        connection: connection,
+        publicKey,
+        wallet,
+        connection,
       })
     );
   });

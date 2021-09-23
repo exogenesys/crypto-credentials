@@ -5,18 +5,18 @@ import {
   TransactionInstruction,
 } from "@solana/web3.js";
 
+import BN from "bn.js";
 import {
   addTxInfo,
   endTransaction,
   setError,
   startTransaction,
 } from "./actions";
-import BN from "bn.js";
 
 const apiUrl = "https://xen-token-server.herokuapp.com";
 
 function bnToPubkey(bn) {
-  let bigno = new BN(bn, 16);
+  const bigno = new BN(bn, 16);
   return new PublicKey(bigno.toArray());
 }
 
@@ -25,13 +25,13 @@ function bnToPubkey(bn) {
     tx: the object that is mapped
  */
 function parseTransaction(tx) {
-  let txn = new Transaction(tx);
+  const txn = new Transaction(tx);
   txn.recentBlockhash = tx.recentBlockhash;
   txn.feePayer = bnToPubkey(tx.feePayer._bn);
   txn.instructions = [];
-  for (let instruction of tx.instructions) {
-    let keys = [];
-    for (let key of instruction.keys) {
+  for (const instruction of tx.instructions) {
+    const keys = [];
+    for (const key of instruction.keys) {
       keys.push({
         isSigner: key.isSigner,
         isWritable: key.isWritable,
@@ -41,15 +41,15 @@ function parseTransaction(tx) {
     txn.instructions.push(
       new TransactionInstruction({
         data: Uint8Array.from(instruction.data.data),
-        keys: keys,
+        keys,
         programId: bnToPubkey(instruction.programId._bn),
       })
     );
   }
 
   txn.signatures = [];
-  for (let signature of tx.signatures) {
-    let sgn =
+  for (const signature of tx.signatures) {
+    const sgn =
       signature.signature == null
         ? null
         : Uint8Array.from(signature.signature.data);
@@ -65,12 +65,12 @@ function parseTransaction(tx) {
 export const doTransfer = async (dispatch, getState) => {
   dispatch(startTransaction());
 
-  let state = getState();
+  const state = getState();
 
-  let { wallet } = state.auth;
-  let { targetAddress, transferAmount } = state.transaction;
+  const { wallet } = state.auth;
+  const { targetAddress, transferAmount } = state.transaction;
   try {
-    let connection = new Connection("https://api.devnet.solana.com");
+    const connection = new Connection("https://api.devnet.solana.com");
 
     /* Get a fee-payer signed transfer instruction with 1% token tax reduced from transfer amount
            Body: wallet = the senders address,
@@ -79,7 +79,7 @@ export const doTransfer = async (dispatch, getState) => {
 
            only works for transferring XEN tokens
         */
-    let transaction = await fetch(apiUrl + "/api/signedTransfer", {
+    const transaction = await fetch(`${apiUrl  }/api/signedTransfer`, {
       method: "POST",
       mode: "cors",
       headers: {
@@ -87,20 +87,20 @@ export const doTransfer = async (dispatch, getState) => {
       },
       body: JSON.stringify({
         wallet: wallet.publicKey.toBase58(),
-        transferAmount: transferAmount,
-        targetAddress: targetAddress,
+        transferAmount,
+        targetAddress,
         token: "XEN",
       }),
     });
 
     // initialize a transaction from the received object.
-    let tx = await parseTransaction(await transaction.json());
+    const tx = await parseTransaction(await transaction.json());
 
     // sign the received transaction with our own keypair and send the transaction to a cluster.
-    let signed = await wallet.signTransaction(tx);
-    let signature = await connection.sendRawTransaction(signed.serialize());
+    const signed = await wallet.signTransaction(tx);
+    const signature = await connection.sendRawTransaction(signed.serialize());
     dispatch(addTxInfo({ "Signature Confirmed": "Success" }));
-    dispatch(endTransaction({ signature: signature }));
+    dispatch(endTransaction({ signature }));
     console.log(signature);
   } catch (e) {
     dispatch(setError(e.message));

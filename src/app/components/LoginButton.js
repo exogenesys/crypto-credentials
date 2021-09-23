@@ -14,19 +14,19 @@ export default function Navbar(props) {
         onClick={() => dispatch(disconnectStart())}
       >
         <span className="icon">
-          <i className="fas fa-sign-out-alt"></i>
+          <i className="fas fa-sign-out-alt" />
         </span>
         <span>Logout</span>
       </button>
     );
-  } else {
+  } 
     return (
       <Link className="button is-rounded is-black" to={Routes.login.path}>
         <span className="icon">
-          <i className="fas fa-university"></i>
+          <i className="fas fa-university" />
         </span>
         <span>University Login</span>
       </Link>
     );
-  }
+  
 }

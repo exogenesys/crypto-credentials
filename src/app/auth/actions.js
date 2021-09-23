@@ -7,38 +7,26 @@ export const authActions = {
   CONNECT_ERROR: "CONNECT_ERROR",
 };
 
-export const connectionStart = (payload) => {
-  return { type: authActions.CONNECT_START, payload: payload };
-};
+export const connectionStart = (payload) => ({ type: authActions.CONNECT_START, payload });
 
-export const connectionSuccess = (payload) => {
-  return {
+export const connectionSuccess = (payload) => ({
     type: authActions.CONNECT_SUCCESS,
-    payload: payload,
-  };
-};
+    payload,
+  });
 
-export const disconnectStart = (payload) => {
-  return { type: authActions.DISCONNECT_START, payload: payload };
-};
+export const disconnectStart = (payload) => ({ type: authActions.DISCONNECT_START, payload });
 
-export const disconnectSuccess = (payload) => {
-  return {
+export const disconnectSuccess = (payload) => ({
     type: authActions.DISCONNECT_SUCCESS,
-    payload: payload,
-  };
-};
+    payload,
+  });
 
-export const connectionSetup = (payload) => {
-  return {
+export const connectionSetup = (payload) => ({
     type: authActions.CONNECT_SETUP,
-    payload: payload,
-  };
-};
+    payload,
+  });
 
-export const connectionError = (payload) => {
-  return {
+export const connectionError = (payload) => ({
     type: authActions.CONNECT_ERROR,
-    payload: payload,
-  };
-};
+    payload,
+  });

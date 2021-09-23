@@ -1,7 +1,7 @@
 import React from "react";
+import { useDispatch, useSelector, useStore } from "react-redux";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { useDispatch, useSelector, useStore } from "react-redux";
 
 export default function AuthRedirect() {
   return (

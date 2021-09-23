@@ -14,93 +14,67 @@ export const transactionActions = {
   TRANSACTION_ERROR_RESET: "TRANSACTION_ERROR_RESET",
 };
 
-export const updateUniversityFormData = (payload) => {
-  return {
+export const updateUniversityFormData = (payload) => ({
     type: transactionActions.UPDATE_UNIVERSITY_FORM_DATA,
-    payload: payload,
-  };
-};
+    payload,
+  });
 
-export const setUniversityAccountStatus = (payload) => {
-  return {
+export const setUniversityAccountStatus = (payload) => ({
     type: transactionActions.SET_UNIVERSITY_ACCOUNT_STATUS,
-    payload: payload,
-  };
-};
+    payload,
+  });
 
-export const storeNewCredentialData = (payload) => {
-  return {
+export const storeNewCredentialData = (payload) => ({
     type: transactionActions.STORE_NEW_CREDENTIAL_DATA,
-    payload: payload,
-  };
-};
+    payload,
+  });
 
-export const loadUniversityData = (payload) => {
-  return {
+export const loadUniversityData = (payload) => ({
     type: transactionActions.LOAD_UNIVERSITY_DATA,
-    payload: payload,
-  };
-};
+    payload,
+  });
 
-export const initProgram = (payload) => {
-  return {
+export const initProgram = (payload) => ({
     type: transactionActions.INIT_PROGRAM,
-    payload: payload,
-  };
-};
+    payload,
+  });
 
-export const updateBalance = (payload) => {
-  return {
+export const updateBalance = (payload) => ({
     type: transactionActions.UPDATE_BALANCE,
-    payload: payload,
-  };
-};
+    payload,
+  });
 
-export const setupTransaction = (payload) => {
-  return {
+export const setupTransaction = (payload) => ({
     type: transactionActions.TRANSACTION_SETUP,
-    payload: payload,
-  };
-};
+    payload,
+  });
 
-export const startTransaction = (payload) => {
-  return {
+export const startTransaction = (payload) => ({
     type: transactionActions.TRANSACTION_START,
-    payload: payload,
-  };
-};
+    payload,
+  });
 
-export const endTransaction = (payload) => {
-  return {
+export const endTransaction = (payload) => ({
     type: transactionActions.TRANSACTION_END,
-    payload: payload,
-  };
-};
+    payload,
+  });
 
-export const resetTransaction = (payload) => {
-  return {
+export const resetTransaction = (payload) => ({
     type: transactionActions.TRANSACTION_RESET,
-    payload: payload,
-  };
-};
+    payload,
+  });
 
-export const addTxInfo = (payload) => {
-  return {
+export const addTxInfo = (payload) => ({
     type: transactionActions.ADD_TX_INFO,
-    payload: payload,
-  };
-};
+    payload,
+  });
 
-export const setError = (payload) => {
-  return {
+export const setError = (payload) => ({
     type: transactionActions.TRANSACTION_ERROR,
-    payload: payload,
-  };
-};
+    payload,
+  });
 
-export const resetError = (payload) => {
-  return {
+export const resetError = (payload) => ({
     type: transactionActions.TRANSACTION_ERROR_RESET,
-    payload: payload,
-  };
-};
+    payload,
+  });

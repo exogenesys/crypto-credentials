@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState , useMemo } from "react";
+import { Link , useHistory } from "react-router-dom";
 import { useDispatch, useSelector, useStore } from "react-redux";
 import Routes from "../routes";
 import {
@@ -21,8 +21,6 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import UniversityBanner from "../components/UniversityBanner";
 import { isValidString } from "../util";
-import { useHistory } from "react-router-dom";
-import { useMemo } from "react";
 
 const EditUniversityProfile = () => {
   const isConnected = useSelector((store) => store.auth.is_connected);
@@ -61,7 +59,7 @@ const EditUniversityProfile = () => {
     <div>
       <Navbar />
       <UniversityBanner
-        title={"Publish University Profile"}
+        title="Publish University Profile"
         publicKeyString={publicKey.toString()}
       />
       <section>

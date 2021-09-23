@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState , useMemo } from "react";
+import { Link , useHistory } from "react-router-dom";
 import { useDispatch, useSelector, useStore } from "react-redux";
 import Routes from "../routes";
 import {
@@ -20,8 +20,6 @@ import {
 } from "./universityService";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { useHistory } from "react-router-dom";
-import { useMemo } from "react";
 import UniversityBanner from "../components/UniversityBanner";
 
 const CreateCredential = () => {
@@ -57,7 +55,7 @@ const CreateCredential = () => {
     <div>
       <Navbar />
       <UniversityBanner
-        title={"Publish Credential"}
+        title="Publish Credential"
         publicKeyString={publicKey.toString()}
       />
       <section>
