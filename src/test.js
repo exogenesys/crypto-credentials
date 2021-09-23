@@ -1,13 +1,9 @@
-const solanaWeb3 = require('@solana/web3.js');
-const splToken = require('@solana/spl-token')
+const solanaWeb3 = require("@solana/web3.js");
+const splToken = require("@solana/spl-token")(async () => {
+  var connection = new solanaWeb3.Connection(
+    solanaWeb3.clusterApiUrl("devnet"),
+    "confirmed"
+  );
 
-
-(async () => {
-    var connection = new solanaWeb3.Connection(
-        solanaWeb3.clusterApiUrl('devnet'),
-        'confirmed'
-    )
-
-
-    console.log(account);
-})()
+  console.log(account);
+})();
