@@ -1,7 +1,7 @@
 const config = {
   localnet: {
     clursterUrl: "http://localhost:8899",
-    programId: "FACDAPuRWRsa8jF6k6j1KZXvebf6c2k7PSSNd61ExArN",
+    programId: "Cs2aG1Go1BffZawNkvPBLQEywBjrTzt1dtjDH6zgT9gf",
     idlId: "2QdcyhpS4iPyD7ibdMHfCBF9Ym99SGo19KYU8XGjcLq2",
   },
   devnet: {

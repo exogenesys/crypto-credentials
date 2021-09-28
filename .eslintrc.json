@@ -16,5 +16,9 @@
     "sourceType": "module"
   },
   "plugins": ["react", "prettier"],
-  "rules": {}
+  "rules": {
+    "no-underscore-dangle": "off",
+    "react/jsx-filename-extension": "off",
+    "jsx-a11y/label-has-associated-control": "off"
+  }
 }
