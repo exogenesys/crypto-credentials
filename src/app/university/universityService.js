@@ -3,8 +3,8 @@ import { toast } from "bulma-toast";
 /* ANCHOR */
 import * as anchor from "@project-serum/anchor";
 import { requestAirdrop, getBalance } from "../solana/utils";
-import config from "../config";
 import { updateBalance, loadUniversityData } from "./actions";
+import config from "../../config";
 /* ANCHOR */
 
 export const requestAirdropAndNotify = async (dispatch, getState) => {

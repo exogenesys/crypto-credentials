@@ -1,7 +1,7 @@
 import { Connection } from "@solana/web3.js";
 import * as anchor from "@project-serum/anchor";
 import { initProgram } from "./actions";
-import config from "../config";
+import config from "../../config";
 
 /* ANCHOR */
 import idl from "../../idl/crypto_credentials_program.idl.json";
