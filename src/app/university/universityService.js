@@ -3,8 +3,16 @@ import { toast } from "bulma-toast";
 /* ANCHOR */
 import * as anchor from "@project-serum/anchor";
 import { requestAirdrop, getBalance } from "../solana/utils";
-import { updateBalance, loadUniversityData } from "./actions";
 import config from "../../config";
+import {
+  updateBalance,
+  loadUniversityData,
+  setUniversityAccountStatus,
+  updateAccountPollingStatus,
+  incrementAccountPollingCount,
+  resetAccountPollingCount,
+  POLLING_STATUS,
+} from "./actions";
 /* ANCHOR */
 
 export const requestAirdropAndNotify = async (dispatch, getState) => {
@@ -33,11 +41,150 @@ export const fetchAndUpdateBalanceOfWallet = async (dispatch, getState) => {
   dispatch(updateBalance({ balance }));
 };
 
+export const findUniversityKey = async (dispatch, getState) => {
+  const state = getState();
+  const { program, randomSeed } = state.university;
+  // const { provider } = state.university;
+  const publicKey = state.auth.wallet._publicKey;
+
+  const courseNumber = 3;
+  const byteArray = new Uint8Array([
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    randomSeed + courseNumber,
+  ]);
+
+  const [universityKey, universityBump] =
+    await anchor.web3.PublicKey.findProgramAddress(
+      [publicKey.toBuffer(), byteArray],
+      program.programId
+    );
+
+  return universityKey;
+};
+
+export const pollUniversityAccount = async (dispatch, getState) => {
+  const state = getState();
+  const { program, accountPollingCount } = state.university;
+  try {
+    const universityKey = await findUniversityKey(dispatch, getState);
+
+    dispatch(
+      updateAccountPollingStatus({
+        status: POLLING_STATUS.WAITING,
+      })
+    );
+
+    const universityProfile = await program.account.university.fetch(
+      universityKey
+    );
+
+    dispatch(resetAccountPollingCount());
+
+    dispatch(
+      updateAccountPollingStatus({
+        status: POLLING_STATUS.SUCCESS,
+      })
+    );
+    console.log("university", universityProfile);
+    console.log("university.name", universityProfile.name);
+    console.log("university.authority", universityProfile.authority.toString());
+
+    dispatch(
+      loadUniversityData({
+        profile: universityProfile,
+        universityAccountKey: universityKey,
+      })
+    );
+    dispatch(
+      setUniversityAccountStatus({
+        universityAccountStatus: true,
+      })
+    );
+  } catch (error) {
+    console.log(error);
+    if (accountPollingCount < 10) {
+      dispatch(incrementAccountPollingCount());
+
+      dispatch(
+        updateAccountPollingStatus({
+          status: POLLING_STATUS.TRY_AGAIN,
+        })
+      );
+      setTimeout(() => pollUniversityAccount(dispatch, getState), 2 * 1000);
+    } else {
+      dispatch(resetAccountPollingCount());
+
+      dispatch(
+        updateAccountPollingStatus({
+          status: POLLING_STATUS.FAILED,
+        })
+      );
+
+      dispatch(
+        setUniversityAccountStatus({
+          universityAccountStatus: false,
+        })
+      );
+    }
+  }
+};
+
+export const tryFetchUniversityAccountOnce = async (dispatch, getState) => {
+  const state = getState();
+  const { program } = state.university;
+  try {
+    const universityKey = await findUniversityKey(dispatch, getState);
+
+    dispatch(
+      updateAccountPollingStatus({
+        status: POLLING_STATUS.WAITING,
+      })
+    );
+
+    const universityProfile = await program.account.university.fetch(
+      universityKey
+    );
+
+    dispatch(
+      updateAccountPollingStatus({
+        status: POLLING_STATUS.SUCCESS,
+      })
+    );
+    console.log("university", universityProfile);
+    console.log("university.name", universityProfile.name);
+    console.log("university.authority", universityProfile.authority.toString());
+
+    dispatch(
+      loadUniversityData({
+        profile: universityProfile,
+        universityAccountKey: universityKey,
+      })
+    );
+    dispatch(
+      setUniversityAccountStatus({
+        universityAccountStatus: true,
+      })
+    );
+  } catch (error) {
+    dispatch(
+      updateAccountPollingStatus({
+        status: POLLING_STATUS.FAILED,
+      })
+    );
+  }
+};
+
 export const createUniversity = async (dispatch, getState) => {
   try {
     // dispatch(startTransaction());
     const state = getState();
-    const { program } = state.university;
+    const { program, randomSeed } = state.university;
     const publicKey = state.auth.wallet._publicKey;
     console.log(state);
     if (
@@ -49,7 +196,16 @@ export const createUniversity = async (dispatch, getState) => {
     const { name } = state.university.universityFormData;
 
     const courseNumber = 3;
-    const byteArray = new Uint8Array([0, 0, 0, 0, 0, 0, 0, courseNumber]);
+    const byteArray = new Uint8Array([
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      randomSeed + courseNumber,
+    ]);
 
     const [universityKey, universityBump] =
       await anchor.web3.PublicKey.findProgramAddress(
@@ -61,7 +217,7 @@ export const createUniversity = async (dispatch, getState) => {
 
     await program.rpc.createUniversity(
       name,
-      new anchor.BN(courseNumber),
+      new anchor.BN(randomSeed + courseNumber),
       universityBump,
       {
         accounts: {
@@ -73,44 +229,22 @@ export const createUniversity = async (dispatch, getState) => {
       }
     );
 
-    // const university = await program.account.university.fetch(universityKey);
-    // console.log("university.name", university.name);
-    // console.log("universityNameInput", universityNameInput);
-    // console.log("university.authority", university.authority.toString());
-    // dispatch(endTransaction());
+    await pollUniversityAccount(dispatch, getState);
   } catch (error) {
     console.log(error);
+
+    alert("some error occured");
+
+    dispatch(
+      setUniversityAccountStatus({
+        universityAccountStatus: false,
+      })
+    );
   }
 };
 
-export const fetchUniveristyAccount = async (dispatch, getState) => {
-  const state = getState();
-  const { program } = state.university;
-  const { provider } = state.university;
-  const publicKey = state.auth.wallet._publicKey;
-
-  console.log(program, provider, publicKey);
-
-  const courseNumber = 3;
-  const byteArray = new Uint8Array([0, 0, 0, 0, 0, 0, 0, courseNumber]);
-
-  const [universityKey, universityBump] =
-    await anchor.web3.PublicKey.findProgramAddress(
-      [publicKey.toBuffer(), byteArray],
-      program.programId
-    );
-
-  const universityProfile = await program.account.university.fetch(
-    universityKey
-  );
-  console.log("university", universityProfile);
-  console.log("university.name", universityProfile.name);
-  console.log("university.authority", universityProfile.authority.toString());
-  dispatch(loadUniversityData({ profile: universityProfile }));
-};
-
 export const onUniversityLogin = async (dispatch, getState) => {
-  fetchUniveristyAccount(dispatch, getState);
+  tryFetchUniversityAccountOnce(dispatch, getState);
   fetchAndUpdateBalanceOfWallet(dispatch, getState);
 };
 

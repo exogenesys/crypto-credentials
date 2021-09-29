@@ -9,6 +9,9 @@ const initialState = {
 
 export default function UniversityReducer(state = initialState, action) {
   switch (action.type) {
+    case transactionActions.DISCONNECT_START: {
+      return updateObject(state, initialState);
+    }
     case transactionActions.INIT_PROGRAM: {
       return updateObject(state, {
         program: action.payload.program,

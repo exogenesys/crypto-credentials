@@ -1,43 +1,55 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useMemo } from "react";
+import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Routes from "../routes";
-import { updateUniversityFormData } from "./actions";
+import {
+  POLLING_STATUS,
+  updateAccountPollingStatus,
+  updateUniversityFormData,
+} from "./actions";
 import { createUniversity } from "./universityService";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import UniversityBanner from "../components/UniversityBanner";
 import { isValidString } from "../util";
 
-const EditUniversityProfile = () => {
-  const publicKey = useSelector((store) => store.auth.wallet._publicKey);
-  const profile = useSelector((store) => store.university.profile);
-  console.log(profile);
-
+const PublishUniversity = () => {
   const dispatch = useDispatch();
-  const [formState, setFormState] = useState("default");
+
+  const publicKey = useSelector((store) => store.auth.wallet._publicKey);
+  const history = useHistory();
+  const { universityAccountStatus, profile, accountPollingStatus } =
+    useSelector((store) => store.university);
+
+  const FORM_STATES = {
+    DEFAULT: "default",
+    LOADING: "loading",
+  };
+
+  const [formState, setFormState] = useState(FORM_STATES.DEFAULT);
   const [universityName, setUniversityName] = useState("");
 
+  useMemo(() => {
+    console.log("accountPollingStatus", accountPollingStatus);
+    if (accountPollingStatus === POLLING_STATUS.SUCCESS) {
+      setFormState(FORM_STATES.DEFAULT);
+      history.push(Routes.dashboard.path);
+    } else if (accountPollingStatus === POLLING_STATUS.FAILED) {
+      setFormState(FORM_STATES.DEFAULT);
+    }
+  }, [accountPollingStatus, setFormState]);
+
   const handlePublishButton = () => {
-    if (formState == "default") {
+    if (formState === FORM_STATES.DEFAULT) {
       if (isValidString(universityName)) {
+        setFormState(FORM_STATES.LOADING);
         dispatch(updateUniversityFormData({ name: universityName }));
-        setFormState("loading");
-        publishUniversity();
+        dispatch(createUniversity);
       } else {
-        setFormState("default");
+        setFormState(FORM_STATES.DEFAULT);
         alert("invalid form data");
       }
     }
-  };
-
-  const publishUniversity = () => {
-    dispatch(createUniversity);
-
-    // .then(() => {
-    //   alert("published");
-    //   setFormState("default");
-    // });
   };
 
   return (
@@ -64,10 +76,11 @@ const EditUniversityProfile = () => {
           <div className="field is-grouped">
             <div className="control">
               <button
+                type="button"
                 className={`button is-warning is-rounded ${
-                  formState == "loading" ? "is-loading" : ""
+                  formState === FORM_STATES.LOADING ? "is-loading" : ""
                 }`}
-                disabled={formState == "loading"}
+                disabled={formState === FORM_STATES.LOADING}
                 onClick={handlePublishButton}
               >
                 Publish
@@ -89,4 +102,4 @@ const EditUniversityProfile = () => {
   );
 };
 
-export default EditUniversityProfile;
+export default PublishUniversity;

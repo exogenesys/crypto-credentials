@@ -16,15 +16,10 @@ const EditUniversityProfile = () => {
     <div>
       <Navbar />
       <UniversityBanner
-        title="Publish University"
+        title="Edit University Profile"
+        style="link"
         publicKeyString={publicKey.toString()}
       />
-      <section className="hero is-info is-bold">
-        <div className="hero-body">
-          <p className="title">Edit University Profile</p>
-          <p className="subtitle">{publicKey.toString()}</p>
-        </div>
-      </section>
       <section>
         <div className="container mt-6">
           <div className="field">

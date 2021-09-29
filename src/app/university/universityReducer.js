@@ -1,7 +1,8 @@
-import { transactionActions } from "./actions";
+import { transactionActions, POLLING_STATUS } from "./actions";
 import { updateObject } from "../util";
 
 const initialState = {
+  randomSeed: Math.floor(Math.random() * 255),
   universityAccountStatus: false,
   universityFormData: {
     name: "",
@@ -10,6 +11,8 @@ const initialState = {
   numberOfCourses: 0,
   numberOfStudents: 0,
   numberOfCredentials: 0,
+  accountPollingStatus: POLLING_STATUS.DEFAULT,
+  accountPollingCount: 0,
   program: null,
   provider: null,
   profile: null,
@@ -29,15 +32,33 @@ const initialState = {
 
 export default function UniversityReducer(state = initialState, action) {
   switch (action.type) {
+    case transactionActions.INCREMENT_ACCOUNT_POLLING_COUNT: {
+      return updateObject(state, {
+        accountPollingCount: state.accountPollingCount + 1,
+      });
+    }
+    case transactionActions.RESET_ACCOUNT_POLLING_COUNT: {
+      return updateObject(state, {
+        accountPollingCount: 0,
+      });
+    }
+    case transactionActions.UPDATE_ACCOUNT_POLLING_STATUS: {
+      return updateObject(state, {
+        accountPollingStatus: action.payload.status,
+      });
+    }
+    case transactionActions.DISCONNECT_START: {
+      return updateObject(state, initialState);
+    }
+
     case transactionActions.UPDATE_UNIVERSITY_FORM_DATA: {
-      console.log("payload", action.payload);
       return updateObject(state, {
         universityFormData: action.payload,
       });
     }
     case transactionActions.SET_UNIVERSITY_ACCOUNT_STATUS: {
       return updateObject(state, {
-        newCredentialData: action.payload.universityAccountStatus,
+        universityAccountStatus: action.payload.universityAccountStatus,
       });
     }
     case transactionActions.STORE_NEW_CREDENTIAL_DATA: {
@@ -48,6 +69,7 @@ export default function UniversityReducer(state = initialState, action) {
     case transactionActions.LOAD_UNIVERSITY_DATA: {
       return updateObject(state, {
         profile: action.payload.profile,
+        universityAccountKey: action.payload.universityAccountKey,
       });
     }
 

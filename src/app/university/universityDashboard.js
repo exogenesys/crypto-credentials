@@ -11,20 +11,32 @@ import Footer from "../components/Footer";
 import Routes from "../routes";
 
 const UniversityDashboard = () => {
-  const {
-    universityAccountStatus,
-    balance,
-    numberOfCourses,
-    numberOfStudents,
-    numberOfCredentials,
-  } = useSelector((store) => store.university);
-
-  const publicKey = useSelector((store) => store.auth.wallet._publicKey);
   const dispatch = useDispatch();
 
   useMemo(() => {
     dispatch(onUniversityLogin);
   }, []);
+
+  const {
+    universityAccountStatus,
+    universityAccountKey,
+    balance,
+    numberOfCourses,
+    numberOfStudents,
+    numberOfCredentials,
+    profile,
+  } = useSelector((store) => store.university);
+
+  const publicKey = useSelector((store) => store.auth.wallet._publicKey);
+
+  const univerityName = profile && profile.name ? profile.name : "";
+  const universityKeyLabel = universityAccountKey ? (
+    <p>
+      <span className="tag mr-3 mt-1">
+        University Key: {universityAccountKey.toString() || ""}
+      </span>
+    </p>
+  ) : null;
 
   return (
     <div>
@@ -33,35 +45,46 @@ const UniversityDashboard = () => {
         <div className="hero-body">
           <p className="title">Dashboard</p>
           <p className="subtitle">
-            {publicKey.toString()}
-            <p>
-              <span
-                className={`mt-2 tag ${
-                  universityAccountStatus ? "is-success" : "is-dark"
-                }`}
-              >
-                {universityAccountStatus ? "Published" : "Not Published"}
-              </span>
-            </p>
+            <p className="title is-4">{univerityName}</p>
           </p>
-          {universityAccountStatus ? (
-            <Link className="button is-rounded" to={Routes.editUniversity.path}>
-              <span className="icon">
-                <i className="fas fa-edit" />
-              </span>
-              <span>Edit University Profile</span>
-            </Link>
-          ) : (
-            <Link
-              className="button is-rounded"
-              to={Routes.publishUniversity.path}
+          <p>
+            <span
+              className={`tag mr-3 ${
+                universityAccountStatus ? "is-success" : "is-dark"
+              }`}
             >
-              <span className="icon">
-                <i className="fas fa-cloud-upload-alt" />
-              </span>
-              <span>Publish University Profile</span>
-            </Link>
-          )}
+              Status: {universityAccountStatus ? "Published" : "Not Published"}
+            </span>
+          </p>
+          <p>
+            <span className="tag mr-3  mt-1">
+              Wallet Key: {publicKey.toString() || ""}
+            </span>
+          </p>
+          {universityKeyLabel}
+          <p className="mt-4">
+            {universityAccountStatus ? (
+              <Link
+                className="button is-rounded"
+                to={Routes.editUniversity.path}
+              >
+                <span className="icon">
+                  <i className="fas fa-edit" />
+                </span>
+                <span>Edit University Profile</span>
+              </Link>
+            ) : (
+              <Link
+                className="button is-rounded"
+                to={Routes.publishUniversity.path}
+              >
+                <span className="icon">
+                  <i className="fas fa-cloud-upload-alt" />
+                </span>
+                <span>Publish University Profile</span>
+              </Link>
+            )}
+          </p>
         </div>
       </section>
       <section className="py-1">
