@@ -1,6 +1,7 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import {
   requestAirdropAndNotify,
   fetchAndUpdateBalanceOfWallet,
@@ -9,6 +10,8 @@ import {
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Routes from "../routes";
+import { getBlockExplorerLink } from "../solana/utils";
+import UniversityBanner from "../components/UniversityBanner";
 
 const UniversityDashboard = () => {
   const dispatch = useDispatch();
@@ -28,70 +31,112 @@ const UniversityDashboard = () => {
   } = useSelector((store) => store.university);
 
   const publicKey = useSelector((store) => store.auth.wallet._publicKey);
+  const [isCopied, setIsCopied] = useState(false);
 
   const univerityName = profile && profile.name ? profile.name : "";
+
   const universityKeyLabel = universityAccountKey ? (
-    <p>
-      <span className="tag mr-3 mt-1">
-        University Key: {universityAccountKey.toString() || ""}
-      </span>
-    </p>
+    <span className="tag">
+      University Key: {universityAccountKey.toString() || ""}
+    </span>
+  ) : null;
+
+  const universityKeyCopyButton = universityAccountKey ? (
+    <div className="navbar-item">
+      <CopyToClipboard
+        text={universityAccountKey.toString()}
+        onCopy={() => setIsCopied(true)}
+      >
+        <button
+          className="button is-link is-light is-outlined"
+          type="button"
+          onClick={() => {}}
+        >
+          <span className="icon">
+            <i className="fas fa-copy" />
+          </span>
+          <span>{!isCopied ? "Copy Address" : "Copied"}</span>
+        </button>
+      </CopyToClipboard>
+    </div>
+  ) : null;
+
+  const viewAccountOnExplorer = universityAccountKey ? (
+    <div className="navbar-item">
+      <Link
+        className="button is-info is-light is-outlined"
+        to={{
+          pathname: getBlockExplorerLink(universityAccountKey.toString()),
+        }}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span className="icon">
+          <i className="fas fa-link" />
+        </span>
+        <span>View On Explorer</span>
+      </Link>
+    </div>
+  ) : null;
+
+  const EditProfileLinkButton = universityAccountStatus ? (
+    <div className="navbar-item">
+      <Link
+        className="button is-success is-light is-outlined"
+        to={Routes.editUniversity.path}
+      >
+        <span className="icon">
+          <i className="fas fa-edit" />
+        </span>
+        <span>Edit University Profile</span>
+      </Link>
+    </div>
+  ) : null;
+
+  const PublishProfileButton = !universityAccountStatus ? (
+    <div className="navbar-item">
+      <Link
+        className="button is-success is-light is-outlined"
+        to={Routes.publishUniversity.path}
+      >
+        <span className="icon">
+          <i className="fas fa-cloud-upload-alt" />
+        </span>
+        <span>Publish University Profile</span>
+      </Link>
+    </div>
   ) : null;
 
   return (
     <div>
       <Navbar />
-      <section className="hero is-danger is-bold">
-        <div className="hero-body">
-          <p className="title">Dashboard</p>
-          <p className="subtitle">
-            <p className="title is-4">{univerityName}</p>
-          </p>
-          <p>
-            <span
-              className={`tag mr-3 ${
-                universityAccountStatus ? "is-success" : "is-dark"
-              }`}
-            >
-              Status: {universityAccountStatus ? "Published" : "Not Published"}
-            </span>
-          </p>
-          <p>
-            <span className="tag mr-3  mt-1">
-              Wallet Key: {publicKey.toString() || ""}
-            </span>
-          </p>
-          {universityKeyLabel}
-          <p className="mt-4">
-            {universityAccountStatus ? (
-              <Link
-                className="button is-rounded"
-                to={Routes.editUniversity.path}
-              >
-                <span className="icon">
-                  <i className="fas fa-edit" />
-                </span>
-                <span>Edit University Profile</span>
-              </Link>
-            ) : (
-              <Link
-                className="button is-rounded"
-                to={Routes.publishUniversity.path}
-              >
-                <span className="icon">
-                  <i className="fas fa-cloud-upload-alt" />
-                </span>
-                <span>Publish University Profile</span>
-              </Link>
-            )}
-          </p>
+      <UniversityBanner
+        title="Dashboard"
+        publicKeyString={publicKey.toString()}
+        style="is-danger"
+      >
+        <p className="title is-4">{univerityName}</p>
+        <div className="mt-1">{universityKeyLabel}</div>
+        <div className="mt-1">
+          <span
+            className={`tag ${
+              universityAccountStatus ? "is-success" : "is-dark"
+            }`}
+          >
+            Status: {universityAccountStatus ? "Published" : "Not Published"}
+          </span>
         </div>
-      </section>
+      </UniversityBanner>
       <section className="py-1">
         <nav className="navbar">
+          {EditProfileLinkButton}
+          {PublishProfileButton}
+          {universityKeyCopyButton}
+          {viewAccountOnExplorer}
           <div className="navbar-item">
             <button
-              className="button is-success is-light"
+              type="button"
+              className="button is-primary is-light is-outlined"
               onClick={() => dispatch(requestAirdropAndNotify)}
             >
               <span className="icon">
@@ -102,24 +147,14 @@ const UniversityDashboard = () => {
           </div>
           <div className="navbar-item">
             <button
-              className="button is-info is-light is-outlined"
+              type="button"
+              className="button is-warning is-light is-outlined"
               onClick={() => dispatch(fetchAndUpdateBalanceOfWallet)}
             >
               <span className="icon">
                 <i className="fas fa-sync" />
               </span>
               <span>Refresh Balance</span>
-            </button>
-          </div>
-          <div className="navbar-item">
-            <button
-              className="button is-info is-light is-outlined"
-              onClick={() => dispatch(initProgramFromIdl)}
-            >
-              <span className="icon">
-                <i className="fas fa-sync" />
-              </span>
-              <span>Load Program</span>
             </button>
           </div>
           <div className="navbar-item">

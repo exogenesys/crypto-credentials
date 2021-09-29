@@ -4,6 +4,7 @@ import { toast } from "bulma-toast";
 import * as anchor from "@project-serum/anchor";
 import { requestAirdrop, getBalance } from "../solana/utils";
 import config from "../../config";
+
 import {
   updateBalance,
   loadUniversityData,
@@ -19,7 +20,7 @@ export const requestAirdropAndNotify = async (dispatch, getState) => {
   const state = getState();
   const { wallet } = state.auth;
   const tx = await requestAirdrop(
-    config.localnet.clursterUrl,
+    config[process.env.REACT_APP_CLUSTER].clursterUrl,
     wallet._publicKey,
     1
   );
@@ -35,7 +36,7 @@ export const fetchAndUpdateBalanceOfWallet = async (dispatch, getState) => {
   const state = getState();
   const { wallet } = state.auth;
   const balance = await getBalance(
-    config.localnet.clursterUrl,
+    config[process.env.REACT_APP_CLUSTER].clursterUrl,
     wallet._publicKey
   );
   dispatch(updateBalance({ balance }));

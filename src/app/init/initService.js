@@ -10,12 +10,16 @@ import idl from "../../idl/crypto_credentials_program.idl.json";
 export const initProgramFromIdl = async (dispatch, getState) => {
   const state = getState();
   const { wallet } = state.auth;
-  const connection = new Connection(config.localnet.clursterUrl);
+  const connection = new Connection(
+    config[process.env.REACT_APP_CLUSTER].clursterUrl
+  );
   const provider = new anchor.Provider(connection, wallet, {
     preflightCommitment: "recent",
     commitment: "recent",
   });
-  const programId = new anchor.web3.PublicKey(config.localnet.programId);
+  const programId = new anchor.web3.PublicKey(
+    config[process.env.REACT_APP_CLUSTER].programId
+  );
   const program = new anchor.Program(idl, programId, provider);
   dispatch(initProgram({ program, provider }));
 };
